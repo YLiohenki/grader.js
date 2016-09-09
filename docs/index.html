@@ -9,7 +9,7 @@
   <script src="assets/js/grader.min.js"></script>
 </head>
 <body class="home">
-	<div id="elem-wrapper">
+	<div class="elem-wrapper">
 		<div id="grader-elem"></div>
 		<h1>Grader</h1>
 	</div>
@@ -58,22 +58,21 @@
 		});
 	</script>
 
-  <div id="elem-wrapper2">
-    <div id="grader-elem2"></div>
+  <div class="elem-wrapper">
+    <div id="grader-elem-linear"></div>
     <h1>Grader</h1>
   </div>
 
-  <script src="assets/js/grader.js"></script>
 	<script>
 	var graderInstance2;
 
 		graderInstance2 = new Grader({
 			name: 'main-gradient2',
-			element: $('#grader-elem2'),
+			element: $('#grader-elem-linear'),
 			isPausedWhenNotInView: true,
 			opacity: [1, 1],
       gradientType: 'linear',
-      gradientOrigin: 'circle closest-side',
+      gradientOrigin: 'to top',
       backgroundImage: "url('assets/images/cat.png')",
 			stateTransitionSpeed: 5000,
 			animationStep: 50,

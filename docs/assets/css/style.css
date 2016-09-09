@@ -20,7 +20,7 @@ body.main-gradient-dark h1 {
 	color: #fff;
 }
 
-#elem-wrapper {
+.elem-wrapper {
 	position: relative;
 	width: 80%;
 	height: 500px;
@@ -28,7 +28,7 @@ body.main-gradient-dark h1 {
 	border: solid 5px #555;
 }
 
-#grader-elem {
+#grader-elem, #grader-elem-linear {
 	position: absolute;
 	width: 100%;
 	height: 100%;

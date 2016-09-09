@@ -6,9 +6,10 @@
 	<title>Grader.js</title>
 	<link rel="stylesheet" href="assets/css/style.css">
   <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  <script src="../dist/grader.js"></script>
 </head>
 <body class="home">
-	<div id="elem-wrapper">
+	<div class="elem-wrapper">
 		<div id="grader-elem"></div>
 		<h1>Grader</h1>
 	</div>
@@ -18,7 +19,6 @@
 		<a href="#green-state" id="green-state-cta">To green state</a>
 	</div>
 
-	<script src="../dist/grader.js"></script>
 	<script>
 	var graderInstance;
 
@@ -43,7 +43,51 @@
             [{ color: '#c21500', size: 0.2}, { color: '#ffc500', size: 1}]
 					],
 					transitionSpeed: 2000,
+					loop: true
+				},
+				"green-state": {
+					gradients: [
+						[{ color: '#c2ff9c', size: 0}, { color: '#64fff4', size: 1}],
+						[{ color: '#64fff4', size: 0.1}, { color: '#99ff66', size: 1}],
+						[{ color: '#66ff00', size: 0.3}, { color: '#99ff66', size: 0.8}]
+					],
+					transitionSpeed: 5000,
 					loop: false
+				}
+			}
+		});
+	</script>
+
+  <div class="elem-wrapper">
+    <div id="grader-elem-linear"></div>
+    <h1>Grader</h1>
+  </div>
+
+	<script>
+	var graderInstance2;
+
+		graderInstance2 = new Grader({
+			name: 'main-gradient2',
+			element: $('#grader-elem-linear'),
+			isPausedWhenNotInView: true,
+			opacity: [1, 1],
+      gradientType: 'linear',
+      gradientOrigin: 'to top',
+      backgroundImage: "url('assets/images/cat.png')",
+			stateTransitionSpeed: 5000,
+			animationStep: 50,
+			states : {
+				"default-state": {
+					gradients: [
+						[{ color: '#c2e59c', size: 0}, { color: '#64b3f4', size: 1}],
+            [{ color: '#64b3f4', size: 0.1}, { color: '#999966', size: 1}],
+            [{ color: '#666600', size: 0.3}, { color: '#999966', size: 0.8}],
+            [{ color: '#FFEEEE', size: 0.1}, { color: '#DDEFBB', size: 1}],
+            [{ color: '#EFEFBB', size: 0}, { color: '#D4D3DD', size: 0.9}],
+            [{ color: '#c21500', size: 0.2}, { color: '#ffc500', size: 1}]
+					],
+					transitionSpeed: 1000,
+					loop: true
 				},
 				"green-state": {
 					gradients: [
