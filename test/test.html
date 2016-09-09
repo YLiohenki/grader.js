@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Grader - Easy javascript gradient animation on any element</title>
+	<meta charset="UTF-8">
+	<title>Grader.js</title>
+	<link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+</head>
+<body class="home">
+	<div id="elem-wrapper">
+		<div id="grader-elem"></div>
+		<h1>Grader</h1>
+	</div>
+
+	<div class="grader-controls">
+		<a href="#default-state" id="default-state-cta">To default state</a>
+		<a href="#green-state" id="green-state-cta">To green state</a>
+	</div>
+
+	<script src="../dist/grader.js"></script>
+	<script>
+	var graderInstance;
+
+		graderInstance = new Grader({
+			name: 'main-gradient',
+			element: $('#grader-elem'),
+			direction: 'left-right',
+			isPausedWhenNotInView: true,
+			opacity: [1, 1],
+      backgroundImage: "url('assets/css/cat.png')",
+      gradientType: 'radial',
+      gradientOrigin: 'circle closest-side',
+			stateTransitionSpeed: 5000,
+			states : {
+				"default-state": {
+					gradients: [
+						[{ color: '#73072F', size: 0}, { color: '#614C03', size: 1}],
+            [{ color: '#C4962C', size: 0}, { color: '#614C03', size: 1}],
+            [{ color: '#4700FC', size: 0}, { color: '#C000FC', size: 1}]
+					],
+					transitionSpeed: 2000,
+					loop: true
+				}
+			}
+		});
+	</script>
+</body>
+</html>
