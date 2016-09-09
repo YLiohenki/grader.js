@@ -38,8 +38,8 @@ gulp.task('docDist', ['buildMin'], function() {
 
 // TASKS
 	// lib
-gulp.task('default', ['build', 'buildMin', 'docDist']);
+  gulp.task('default', ['build', 'buildMin', 'docDist']);
 
-gulp.task('watch', ['default'], function() {
-	gulp.watch('./lib/**/*.js', ['default'])
-});
+  gulp.task('watch', ['default'], function() {
+  	gulp.watch('./lib/**/*.js', ['default'])
+  });

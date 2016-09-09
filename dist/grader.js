@@ -10,6 +10,7 @@ function Grader(options) {
 	this.activeState = 'default-state';
 	this.states = options.states;
 	this.stateTransitionSpeed = options.stateTransitionSpeed || 5000;
+	this.animationStep = options.animationStep;
 
 	var workingState = this.states[this.activeState];
 
@@ -41,6 +42,8 @@ function Grader(options) {
     	return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 		}
 
+		var speed = workingState.transitionSpeed || this.stateTransitionSpeed;
+
 		function updateGradient()
 		{
 
@@ -48,17 +51,22 @@ function Grader(options) {
 
 			var currentTimeStamp = Date.now();
 
-			if (currentTimeStamp - previousStepTimeStamp >= this.stateTransitionSpeed)
+			if (currentTimeStamp - previousStepTimeStamp >= speed)
 			{
 				step += 1;
 				previousStepTimeStamp = currentTimeStamp;
+				if (step == gradients.length - 1 && !workingState.loop)//if it isn't looping, stay on last gradient, not first
+				{
+					clearInterval(refreshIntervalId);
+					return;
+				}
 			}
 
-			var substep = (currentTimeStamp - previousStepTimeStamp) / this.stateTransitionSpeed;//from 0 to 1
+			var substep = (currentTimeStamp - previousStepTimeStamp) / speed;//from 0 to 1
 
 			if (step >= gradients.length)
 			{
-				step = 0;
+			  step = 0;
 			}
 
 			var prevGradient = gradients[step];
@@ -95,7 +103,7 @@ function Grader(options) {
 		}
 
 		var that = this;
-		setInterval(updateGradient.bind(that),50);
+		var refreshIntervalId = setInterval(updateGradient.bind(that),this.animationStep || 200);
 }
 
 module.exports = Grader;

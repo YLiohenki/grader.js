@@ -25,22 +25,34 @@
 		graderInstance = new Grader({
 			name: 'main-gradient',
 			element: $('#grader-elem'),
-			direction: 'left-right',
 			isPausedWhenNotInView: true,
 			opacity: [1, 1],
-      backgroundImage: "url('assets/css/cat.png')",
       gradientType: 'radial',
       gradientOrigin: 'circle closest-side',
+      backgroundImage: "url('assets/images/cat.png')",
 			stateTransitionSpeed: 5000,
+			animationStep: 50,
 			states : {
 				"default-state": {
 					gradients: [
-						[{ color: '#73072F', size: 0}, { color: '#614C03', size: 1}],
-            [{ color: '#C4962C', size: 0}, { color: '#614C03', size: 1}],
-            [{ color: '#4700FC', size: 0}, { color: '#C000FC', size: 1}]
+						[{ color: '#c2e59c', size: 0}, { color: '#64b3f4', size: 1}],
+            [{ color: '#64b3f4', size: 0.1}, { color: '#999966', size: 1}],
+            [{ color: '#666600', size: 0.3}, { color: '#999966', size: 0.8}],
+            [{ color: '#FFEEEE', size: 0.1}, { color: '#DDEFBB', size: 1}],
+            [{ color: '#EFEFBB', size: 0}, { color: '#D4D3DD', size: 0.9}],
+            [{ color: '#c21500', size: 0.2}, { color: '#ffc500', size: 1}]
 					],
 					transitionSpeed: 2000,
-					loop: true
+					loop: false
+				},
+				"green-state": {
+					gradients: [
+						[{ color: '#c2ff9c', size: 0}, { color: '#64fff4', size: 1}],
+						[{ color: '#64fff4', size: 0.1}, { color: '#99ff66', size: 1}],
+						[{ color: '#66ff00', size: 0.3}, { color: '#99ff66', size: 0.8}]
+					],
+					transitionSpeed: 5000,
+					loop: false
 				}
 			}
 		});
