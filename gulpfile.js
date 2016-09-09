@@ -33,7 +33,7 @@ gulp.task('buildMin', ['build'], function() {
 
 gulp.task('docDist', ['buildMin'], function() {
 	return gulp.src('./dist/grader.min.js')
-		.pipe(copy('./docs/assets/js/vendor/', { prefix: 1 }));
+		.pipe(copy('./docs/assets/js/', { prefix: 1 }));
 });
 
 // TASKS
