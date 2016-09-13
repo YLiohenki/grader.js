@@ -17,6 +17,8 @@
 	<div class="grader-controls">
 		<a href="#default-state" id="default-state-cta">To default state</a>
 		<a href="#green-state" id="green-state-cta">To green state</a>
+		<a id="stop-animation-cta">Stop animation</a>
+		<a id="resume-animation-cta">Resume animation</a>
 	</div>
 
 	<script>
@@ -56,6 +58,16 @@
 				}
 			}
 		});
+
+		document.querySelector('#stop-animation-cta').addEventListener('click', function(event) {
+			event.preventDefault();
+			graderInstance.pause();
+		});
+
+		document.querySelector('#resume-animation-cta').addEventListener('click', function(event) {
+			event.preventDefault();
+			graderInstance.resume();
+		});
 	</script>
 
   <div class="elem-wrapper">
@@ -66,7 +78,7 @@
 	<script>
 	var graderInstance2;
 
-		graderInstance2 = new Grader({
+		/*graderInstance2 = new Grader({
 			name: 'main-gradient2',
 			element: $('#grader-elem-linear'),
 			isPausedWhenNotInView: true,
@@ -99,7 +111,7 @@
 					loop: false
 				}
 			}
-		});
+		});*/
 	</script>
 </body>
 </html>
