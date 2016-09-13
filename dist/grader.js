@@ -10,7 +10,7 @@ function Grader(options) {
     this.activeState = null;
     this.defaultState = 'default-state';
     this.states = options.states;
-    this.stateTransitionSpeed = options.stateTransitionSpeed || 5000;
+    this.stateTransitionSpeed = options.stateTransitionSpeed || 2000;
     this.animationStep = options.animationStep;
 
     this.paused = false;
@@ -38,9 +38,6 @@ module.exports = Grader;
 'use strict';
 
 module.exports = function(state) {
-    var _this = this;
-    var nextColors, colorDiff;
-
     if (this.activeState === state) {
         return;
     }
