@@ -42,6 +42,8 @@ module.exports = function(state) {
         return;
     }
 
+    var hereOldActiveState = !!this.activeState;
+
     this.workingState = this.states[state];
 
     this.gradients = this.workingState.gradients.map(function(state) {
@@ -57,18 +59,31 @@ module.exports = function(state) {
     });
 
     this.speed = this.workingState.transitionSpeed || this.stateTransitionSpeed;
-    this.step = 0;
-    this.previousStepTimeStamp = Date.now();
 
-    // Setting the good properties for the transition
-    /*if (!this.isPaused) {
-        this.isPaused = true;
+    if (!this.paused) {
         this.pause();
     }
 
+    if (!hereOldActiveState) {
+        this.activeState = state;
+        this.previousStepTimeStamp = Date.now();
+        return;
+    }
 
-    this.activeState = state;
-    this.resume();*/
+    this.isChangingState = true;
+    this.previousStepTimeStamp = Date.now();
+    this.oldStateGradient = [this.firstColor, this.secondColor];
+    var that = this;
+    var changeStateIntervalId = setInterval(this.updateGradient.bind(that), this.animationStep || 200);
+
+    setTimeout(function() {
+        that.activeState = state;
+        that.isChangingState = false;
+        clearInterval(changeStateIntervalId);
+        this.previousStepTimeStamp = Date.now();
+        this.step = 0;
+        that.resume();
+    }, this.stateTransitionSpeed);
 };
 
 },{}],3:[function(require,module,exports){
@@ -104,7 +119,7 @@ module.exports = function() {
 
     var currentTimeStamp = Date.now();
 
-    if (currentTimeStamp - this.previousStepTimeStamp >= this.speed) {
+    if (!this.isChangingState && currentTimeStamp - this.previousStepTimeStamp >= this.speed) {
         this.step += 1;
         this.previousStepTimeStamp = currentTimeStamp;
         if (this.step == this.gradients.length - 1 && !this.workingState.loop) //if it isn't looping, stay on last gradient, not first
@@ -114,28 +129,31 @@ module.exports = function() {
         }
     }
 
-    var substep = (currentTimeStamp - this.previousStepTimeStamp) / this.speed; //from 0 to 1
+    var substep = (currentTimeStamp - this.previousStepTimeStamp) / (this.isChangingState ? this.stateTransitionSpeed : this.speed); //from 0 to 1
 
     if (this.step >= this.gradients.length) {
         this.step = 0;
     }
 
-    var prevGradient = this.gradients[this.step];
-    var nextGradient = this.gradients[this.step + 1 < this.gradients.length ? this.step + 1 : 0];
+    var prevGradient = this.isChangingState ? this.oldStateGradient : this.gradients[this.step];
+    var nextGradient = this.isChangingState ? this.gradients[0] : this.gradients[this.step + 1 < this.gradients.length ? this.step + 1 : 0];
 
-    var c0_r = prevGradient[0].red * (1 - substep) + nextGradient[0].red * substep; //color0 red
-    var c0_g = prevGradient[0].green * (1 - substep) + nextGradient[0].green * substep;
-    var c0_b = prevGradient[0].blue * (1 - substep) + nextGradient[0].blue * substep;
-    var c0_s = prevGradient[0].size * (1 - substep) + nextGradient[0].size * substep; //color0 size
+    this.firstColor = {};
+    this.firstColor.red = prevGradient[0].red * (1 - substep) + nextGradient[0].red * substep; //color0 red
+    this.firstColor.green = prevGradient[0].green * (1 - substep) + nextGradient[0].green * substep;
+    this.firstColor.blue = prevGradient[0].blue * (1 - substep) + nextGradient[0].blue * substep;
+    this.firstColor.size = prevGradient[0].size * (1 - substep) + nextGradient[0].size * substep; //color0 size
 
-    var c1_r = prevGradient[1].red * (1 - substep) + nextGradient[1].red * substep; //color1 red
-    var c1_g = prevGradient[1].green * (1 - substep) + nextGradient[1].green * substep;
-    var c1_b = prevGradient[1].blue * (1 - substep) + nextGradient[1].blue * substep;
-    var c1_s = prevGradient[1].size * (1 - substep) + nextGradient[1].size * substep;
+    this.secondColor = {};
+    this.secondColor.red = prevGradient[1].red * (1 - substep) + nextGradient[1].red * substep; //color1 red
+    this.secondColor.green = prevGradient[1].green * (1 - substep) + nextGradient[1].green * substep;
+    this.secondColor.blue = prevGradient[1].blue * (1 - substep) + nextGradient[1].blue * substep;
+    this.secondColor.size = prevGradient[1].size * (1 - substep) + nextGradient[1].size * substep;
+
     if (window.debugging) {
         console.log('step:' + this.step + ' substep:' + substep);
-        console.log('color1: ' + c0_r + ' ' + c0_g + ' ' + c0_b + ' ' + c0_s);
-        console.log('color2: ' + c1_r + ' ' + c1_g + ' ' + c1_b + ' ' + c1_s);
+        console.log('color1: ' + firstColor.red + ' ' + firstColor.green + ' ' + firstColor.blue + ' ' + firstColor.size);
+        console.log('color2: ' + secondColor.red + ' ' + secondColor.green + ' ' + secondColor.blue + ' ' + secondColor.size);
         console.log('');
     }
     var componentToHex = function(c) {
@@ -149,10 +167,11 @@ module.exports = function() {
     $(this.element).css({
         background: (this.backgroundImage ? this.backgroundImage + ", " : "") +
             (this.gradientType.toLowerCase() == 'radial' ? "radial" : "linear") + "-gradient(" +
-            this.gradientOrigin + ", " + rgbToHex(Math.round(c0_r), Math.round(c0_g), Math.round(c0_b)) +
-            " " + Math.round(c0_s * 100) + "%, " +
-            rgbToHex(Math.round(c1_r), Math.round(c1_g), Math.round(c1_b)) +
-            " " + Math.round(c1_s * 100) + "%)"
+            this.gradientOrigin + ", " +
+            rgbToHex(Math.round(this.firstColor.red), Math.round(this.firstColor.green), Math.round(this.firstColor.blue)) +
+            " " + Math.round(this.firstColor.size * 100) + "%, " +
+            rgbToHex(Math.round(this.secondColor.red), Math.round(this.secondColor.green), Math.round(this.secondColor.blue)) +
+            " " + Math.round(this.secondColor.size * 100) + "%)"
     });
 };
 
