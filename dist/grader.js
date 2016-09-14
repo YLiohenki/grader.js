@@ -3,7 +3,7 @@
 'use strict';
 
 function Grader(options) {
-    this.element = options.element;
+    this.element = document.querySelector(options.element);
     this.backgroundImage = options.backgroundImage;
     this.gradientType = options.gradientType || 'linear'; //radial or linear
     this.gradientOrigin = options.gradientOrigin || 'circle closest-side';
@@ -115,8 +115,6 @@ module.exports = function()
 'use strict';
 
 module.exports = function() {
-    if ($ === undefined) return;
-
     var currentTimeStamp = Date.now();
 
     if (!this.isChangingState && currentTimeStamp - this.previousStepTimeStamp >= this.speed) {
@@ -164,15 +162,13 @@ module.exports = function() {
     var rgbToHex = function(r, g, b) {
         return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
     }
-    $(this.element).css({
-        background: (this.backgroundImage ? this.backgroundImage + ", " : "") +
-            (this.gradientType.toLowerCase() == 'radial' ? "radial" : "linear") + "-gradient(" +
-            this.gradientOrigin + ", " +
-            rgbToHex(Math.round(this.firstColor.red), Math.round(this.firstColor.green), Math.round(this.firstColor.blue)) +
-            " " + Math.round(this.firstColor.size * 100) + "%, " +
-            rgbToHex(Math.round(this.secondColor.red), Math.round(this.secondColor.green), Math.round(this.secondColor.blue)) +
-            " " + Math.round(this.secondColor.size * 100) + "%)"
-    });
+    this.element.style.background = (this.backgroundImage ? this.backgroundImage + ", " : "") +
+        (this.gradientType.toLowerCase() == 'radial' ? "radial" : "linear") + "-gradient(" +
+        this.gradientOrigin + ", " +
+        rgbToHex(Math.round(this.firstColor.red), Math.round(this.firstColor.green), Math.round(this.firstColor.blue)) +
+        " " + Math.round(this.firstColor.size * 100) + "%, " +
+        rgbToHex(Math.round(this.secondColor.red), Math.round(this.secondColor.green), Math.round(this.secondColor.blue)) +
+        " " + Math.round(this.secondColor.size * 100) + "%)";
 };
 
 },{}],6:[function(require,module,exports){
