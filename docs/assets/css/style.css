@@ -9,7 +9,6 @@ h1 {
 	z-index: 10;
 	text-align: center;
 	margin-top: 50px;
-	transition: color .75s;
 }
 
 body.main-gradient-light h1 {
@@ -40,7 +39,7 @@ body.main-gradient-dark h1 {
 .content-wrapper {
     text-align: center;
     transition-property: color, fill;
-    transition-duration: 1.5s;
+    transition-duration: 0.5s;
     visibility: hidden;
     font-size: 16px;
 }
@@ -53,10 +52,14 @@ body.main-gradient-dark h1 {
     color: inherit;
     text-transform: uppercase;
     text-decoration: none;
-    box-shadow: 0 0 0;
-    transition: box-shadow 1s;
 }
 
 .content-wrapper .title span {
     font-family: Graduate;
+		font-size: 70px;
+}
+
+.grader-dark + .content-wrapper
+{
+	color:white;
 }

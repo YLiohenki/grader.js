@@ -33,14 +33,15 @@ Grader.prototype.changeState = require('./changeState.js');
 Grader.prototype.resume = require('./resume.js');
 Grader.prototype.pause = require('./pause.js');
 Grader.prototype.getOpacity = require('./getOpacity.js');
+Grader.prototype.getLightness = require('./getLightness.js');
 
 module.exports = Grader;
 
-},{"./changeState.js":2,"./getOpacity.js":3,"./pause.js":4,"./resume.js":5,"./updateGradient.js":6}],2:[function(require,module,exports){
+},{"./changeState.js":2,"./getLightness.js":3,"./getOpacity.js":4,"./pause.js":5,"./resume.js":6,"./updateGradient.js":7}],2:[function(require,module,exports){
 'use strict';
 
 module.exports = function(state) {
-    if (this.activeState === state) {
+    if (this.activeState === state && !this.isChangingState) {
         return;
     }
 
@@ -107,6 +108,38 @@ module.exports = function(state) {
 },{}],3:[function(require,module,exports){
 'use strict';
 
+module.exports = function() {
+	var currentColors = [this.firstColor, this.secondColor];
+	var colorsAverage = [];
+	var gradientAverage = null;
+	var lightnessAverage;
+
+	currentColors.forEach(function(el, i, arr) {
+		colorsAverage.push(
+			Math.max(el.red, el.green, el.blue)
+		)
+	});
+
+	colorsAverage.forEach(function(el, i, arr) {
+		// Add all the average lightness of each color
+		gradientAverage = gradientAverage === null ?
+			el :
+			gradientAverage + el;
+
+		if (i === colorsAverage.length - 1) {
+			// if it's the last lightness average
+			// divide it by the total length to
+			// have the global average lightness
+			lightnessAverage = Math.round(gradientAverage / (i + 1));
+		}
+	});
+
+	return lightnessAverage >= 128 ? 'light' : 'dark';
+};
+
+},{}],4:[function(require,module,exports){
+'use strict';
+
 module.exports = function(color, isFirstColor) {
     var prev = color.opacity;
     if (prev || prev == 0)
@@ -127,7 +160,7 @@ module.exports = function(color, isFirstColor) {
     return prev;
 }
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 
 module.exports = function()
@@ -138,7 +171,7 @@ module.exports = function()
   this.refreshIntervalId = null;
 }
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 module.exports = function()
@@ -152,7 +185,7 @@ module.exports = function()
   this.refreshIntervalId = setInterval(this.updateGradient.bind(this), this.animationStep || 200);
 }
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -218,9 +251,13 @@ module.exports = function() {
         "; background:" + imageString + "-ms-" + gradientString /* Just for fun and profit */ +
         "; background:" + imageString + gradientString
     );
+    this.element.classList.remove("grader-dark");
+    this.element.classList.remove("grader-light");
+
+    this.element.classList.add("grader-" + this.getLightness());
 };
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 window.Grader = require('./lib/Grader.js');
 
-},{"./lib/Grader.js":1}]},{},[7]);
+},{"./lib/Grader.js":1}]},{},[8]);

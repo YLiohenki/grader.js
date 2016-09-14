@@ -5,8 +5,9 @@
 	<meta charset="UTF-8">
 	<title>Grader.js</title>
 	<link rel="stylesheet" href="assets/css/style.css">
-	<link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Graduate:regular:latin'>
+	<link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Graduate:regular:latin'>
   <script src="assets/js/grader.js"></script>
+	<script src="https://code.jquery.com/jquery-3.1.0.slim.min.js"></script>
 </head>
 <body class="home">
 	<div class="page-wrapper">
@@ -17,14 +18,14 @@
 						<span>Grader.js</span>
           </h1>
           <p class="description">
-            Create fluid and interactive gradients animations<br>
+            Create fluid and interactive gradients animations on any tag<br>
             with this small <span class="app-size">(&lt; 10kB)</span> .js library
           </p>
         </div>
         <nav>
-					<a class="link" id="dark-state" href="examples.html" onmouseover="graderInstance.changeState('green-state');" onmouseout="graderInstance.changeState('default-state');">Examples</a>
-					<a class="link" id="light-state" href="api.html" onmouseover="graderInstance.changeState('red-state');" onmouseout="graderInstance.changeState('default-state');">API</a>
-					<a class="link" id="green-state" href="https://github.com/sarcadass/granim.js/releases" target="_blank" rel="external">Download</a></nav>
+					<a class="link" id="green-state" href="examples.html">Examples</a>
+					<a class="link" id="red-state" href="api.html">API</a>
+					<a class="link" id="dark-state" href="https://github.com/YLiohenki/grader.js/releases" target="_blank" rel="external">Download</a></nav>
       </div>
 	</div>
 	<script>
@@ -44,9 +45,9 @@
 					gradients: [
 						[{ color: '#7474BF'}, { color: '#348AC7'}],
             [{ color: '#2196f3', size: -0.2}, { color: '#f44336'}],
-            [{ color: '#2c3e50'}, { color: '#3498db'}],
+            [{ color: '#2c3e50'}, { color: '#3498db', opacity: 0.5}],
             [{ color: '#5C258D'}, { color: '#4389A2'}],
-            [{ color: '#000428'}, { color: '#004e92', opacity: 0.5}]
+            [{ color: '#000428'}, { color: '#003d81'}]
 					],
 					transitionSpeed: 5000,
 					loop: true
@@ -68,7 +69,58 @@
 					transitionSpeed: 1000,
 					loop: false
 				},
+				"dark-state": {
+					gradients: [
+						[{ color: '#000000'}, { color: '#434343'}]
+					],
+					loop: false
+				},
 			}
+		});
+
+		graderGreenButtonInstance = new Grader({
+			name: 'green-button-gradient',
+			element: '#green-state',
+			isPausedWhenNotInView: true,
+			opacity: [0, 0],
+      gradientType: 'radial',
+      gradientOrigin: 'ellipse closest-side',
+			stateTransitionSpeed: 1000,
+			animationStep: 50,
+			states : {
+				"default-state": {
+					gradients: [
+						[{ color: '#ffffff'}, { color: '#ffffff'}]
+					],
+					transitionSpeed: 5000,
+					loop: false
+				},
+				"hover-state": {
+					gradients: [
+						[{ color: '#ffffff', size: 0.6 , opacity: 0.2}, { color: '#ffffff', size: 0.9, opacity: 0.7}]
+					],
+					transitionSpeed: 5000,
+					loop: false
+				}
+			}
+		});
+
+		$('#green-state').hover(function() {
+			graderInstance.changeState('green-state');
+			graderGreenButtonInstance.changeState("hover-state");
+		}, function() {
+			graderInstance.changeState('default-state');
+			graderGreenButtonInstance.changeState("default-state");
+		});
+		$('#red-state').hover(function() {
+			graderInstance.changeState('red-state');
+		},function() {
+			graderInstance.changeState('default-state');
+		});
+		$('#dark-state').hover(function() {
+			graderInstance.changeState('dark-state');
+		},function() {
+			graderInstance.changeState('default-state');
 		});
 	</script>
 
