@@ -5,101 +5,88 @@
 	<meta charset="UTF-8">
 	<title>Grader.js</title>
 	<link rel="stylesheet" href="assets/css/style.css">
-  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-  <script src="assets/js/grader.min.js"></script>
+	<link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Graduate:regular:latin'>
+  <script src="assets/js/grader.js"></script>
 </head>
 <body class="home">
-	<div class="elem-wrapper">
+	<div class="page-wrapper">
 		<div id="grader-elem"></div>
-		<h1>Grader</h1>
+		<div class="content-wrapper" style="margin-top: 358.219px; visibility: visible;">
+        <div class="description-wrapper">
+          <h1 class="title" title="grader.js">
+						<span>Grader.js</span>
+          </h1>
+          <p class="description">
+            Create fluid and interactive gradients animations<br>
+            with this small <span class="app-size">(&lt; 10kB)</span> .js library
+          </p>
+        </div>
+        <nav>
+					<a class="link" id="dark-state" href="examples.html" onmouseover="graderInstance.changeState('green-state');" onmouseout="graderInstance.changeState('default-state');">Examples</a>
+					<a class="link" id="light-state" href="api.html" onmouseover="graderInstance.changeState('red-state');" onmouseout="graderInstance.changeState('default-state');">API</a>
+					<a class="link" id="green-state" href="https://github.com/sarcadass/granim.js/releases" target="_blank" rel="external">Download</a></nav>
+      </div>
 	</div>
-
-	<div class="grader-controls">
-		<a href="#default-state" id="default-state-cta">To default state</a>
-		<a href="#green-state" id="green-state-cta">To green state</a>
-	</div>
-
 	<script>
 	var graderInstance;
 
 		graderInstance = new Grader({
 			name: 'main-gradient',
-			element: $('#grader-elem'),
+			element: '#grader-elem',
 			isPausedWhenNotInView: true,
 			opacity: [1, 1],
-      gradientType: 'radial',
-      gradientOrigin: 'circle closest-side',
-      backgroundImage: "url('assets/images/cat.png')",
-			stateTransitionSpeed: 5000,
+      gradientType: 'linear',
+      gradientOrigin: 'to bottom right',
+			stateTransitionSpeed: 1000,
 			animationStep: 50,
 			states : {
 				"default-state": {
 					gradients: [
-						[{ color: '#c2e59c', size: 0}, { color: '#64b3f4', size: 1}],
-            [{ color: '#64b3f4', size: 0.1}, { color: '#999966', size: 1}],
-            [{ color: '#666600', size: 0.3}, { color: '#999966', size: 0.8}],
-            [{ color: '#FFEEEE', size: 0.1}, { color: '#DDEFBB', size: 1}],
-            [{ color: '#EFEFBB', size: 0}, { color: '#D4D3DD', size: 0.9}],
-            [{ color: '#c21500', size: 0.2}, { color: '#ffc500', size: 1}]
+						[{ color: '#7474BF'}, { color: '#348AC7'}],
+            [{ color: '#2196f3', size: -0.2}, { color: '#f44336'}],
+            [{ color: '#2c3e50'}, { color: '#3498db'}],
+            [{ color: '#5C258D'}, { color: '#4389A2'}],
+            [{ color: '#000428'}, { color: '#004e92', opacity: 0.5}]
 					],
-					transitionSpeed: 2000,
+					transitionSpeed: 5000,
 					loop: true
 				},
 				"green-state": {
 					gradients: [
-						[{ color: '#c2ff9c', size: 0}, { color: '#64fff4', size: 1}],
-						[{ color: '#64fff4', size: 0.1}, { color: '#99ff66', size: 1}],
-						[{ color: '#66ff00', size: 0.3}, { color: '#99ff66', size: 0.8}]
+						[{ color: '#348F50'}, { color: '#56B4D3'}],
+						[{ color: '#215f00'}, { color: '#e4e4d9'}],
+						[{ color: '#134E5E'}, { color: '#71B280'}]
 					],
-					transitionSpeed: 5000,
+					transitionSpeed: 1000,
 					loop: false
-				}
+				},
+				"red-state": {
+					gradients: [
+						[{ color: '#e43a15'}, { color: '#e65245'}],
+            [{ color: '#A83279'}, { color: '#D38312'}]
+					],
+					transitionSpeed: 1000,
+					loop: false
+				},
 			}
 		});
 	</script>
 
-  <div class="elem-wrapper">
-    <div id="grader-elem-linear"></div>
-    <h1>Grader</h1>
-  </div>
-
 	<script>
-	var graderInstance2;
+		(function(i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r;
+			i[r] = i[r] || function() {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date();
+			a = s.createElement(o),
+				m = s.getElementsByTagName(o)[0];
+			a.async = 1;
+			a.src = g;
+			m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-		graderInstance2 = new Grader({
-			name: 'main-gradient2',
-			element: $('#grader-elem-linear'),
-			isPausedWhenNotInView: true,
-			opacity: [1, 1],
-      gradientType: 'linear',
-      gradientOrigin: 'to top',
-      backgroundImage: "url('assets/images/cat.png')",
-			stateTransitionSpeed: 5000,
-			animationStep: 50,
-			states : {
-				"default-state": {
-					gradients: [
-						[{ color: '#c2e59c', size: 0}, { color: '#64b3f4', size: 1}],
-            [{ color: '#64b3f4', size: 0.1}, { color: '#999966', size: 1}],
-            [{ color: '#666600', size: 0.3}, { color: '#999966', size: 0.8}],
-            [{ color: '#FFEEEE', size: 0.1}, { color: '#DDEFBB', size: 1}],
-            [{ color: '#EFEFBB', size: 0}, { color: '#D4D3DD', size: 0.9}],
-            [{ color: '#c21500', size: 0.2}, { color: '#ffc500', size: 1}]
-					],
-					transitionSpeed: 1000,
-					loop: true
-				},
-				"green-state": {
-					gradients: [
-						[{ color: '#c2ff9c', size: 0}, { color: '#64fff4', size: 1}],
-						[{ color: '#64fff4', size: 0.1}, { color: '#99ff66', size: 1}],
-						[{ color: '#66ff00', size: 0.3}, { color: '#99ff66', size: 0.8}]
-					],
-					transitionSpeed: 5000,
-					loop: false
-				}
-			}
-		});
+		ga('create', 'UA-84125765-1', 'auto');
+		ga('send', 'pageview');
 	</script>
 </body>
 </html>

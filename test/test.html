@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<title>Grader - Easy javascript gradient animation on any element</title>
 	<meta charset="UTF-8">
 	<title>Grader.js</title>
 	<link rel="stylesheet" href="assets/css/style.css">
-  <script src="../dist/grader.js"></script>
+	<script src="../dist/grader.js"></script>
 </head>
+
 <body class="home">
 	<div class="elem-wrapper">
 		<div id="grader-elem"></div>
@@ -21,35 +23,35 @@
 	</div>
 
 	<script>
-	var graderInstance;
+		var graderInstance;
 
 		graderInstance = new Grader({
 			name: 'main-gradient',
 			element: '#grader-elem',
 			isPausedWhenNotInView: true,
-			opacity: [1, 1],
-      gradientType: 'radial',
-      gradientOrigin: 'circle closest-side',
-      backgroundImage: "url('assets/images/cat.png')",
+			gradientType: 'radial',
+			gradientOrigin: 'circle closest-side',
+			backgroundImage: "url('assets/images/cat.png')",
 			stateTransitionSpeed: 5000,
 			animationStep: 50,
-			states : {
+			states: {
 				"default-state": {
 					gradients: [
-						[{ color: '#c2e59c', size: 0}, { color: '#64b3f4', size: 1}],
-            [{ color: '#64b3f4', size: 0.1}, { color: '#999966', size: 1}],
-            [{ color: '#666600', size: 0.3}, { color: '#999966', size: 0.8}],
-            [{ color: '#FFEEEE', size: 0.1}, { color: '#DDEFBB', size: 1}],
-            [{ color: '#EFEFBB', size: 0}, { color: '#D4D3DD', size: 0.9}],
-            [{ color: '#c21500', size: 0.2}, { color: '#ffc500', size: 1}]
+						[{color: '#c2e59c',	size: 0}, {color: '#64b3f4',	size: 1}],
+						[{color: '#64b3f4', size: 0.1,opacity: 1}, {color: '#999966', size: 1, opacity: 1}],
+						[{color: '#666600', size: 0.3}, {color: '#999966',size: 0.8}],
+						[{color: '#FFEEEE', size: 0.1, opacity: 1}, {color: '#DDEFBB', size: 1, opacity: 1}],
+						[{color: '#EFEFBB', size: 0, opacity: 1}, {color: '#D4D3DD', size: 0.9, opacity: 1}],
+						[{color: '#c21500', size: 0.2}, {color: '#ffc500', size: 1}]
 					],
+					opacity: [0.5, 1],
 					transitionSpeed: 2000,
 					loop: true
 				},
 				"green-state": {
 					gradients: [
-						[{ color: '#64fff4', size: 0}, { color: '#94ffa4', size: 1}],
-						[{ color: '#64fff4', size: 0.1}, { color: '#99ff66', size: 1}]
+						[{color: '#64fff4', size: 0}, {color: '#94ffa4', size: 1}],
+						[{color: '#64fff4', size: 0.1}, {color: '#99ff66', size: 1}]
 					],
 					transitionSpeed: 2000,
 					loop: true
@@ -78,21 +80,20 @@
 		});
 	</script>
 
-  <div class="elem-wrapper">
-    <div id="grader-elem-linear"></div>
-    <h1>Grader</h1>
-  </div>
+	<div class="elem-wrapper">
+		<div id="grader-elem-linear"></div>
+		<h1>Grader</h1>
+	</div>
 
 	<script>
-	var graderInstance2;
+		var graderInstance2;
 
-		graderInstance2 = new Grader({
+		/*graderInstance2 = new Grader({
 			name: 'main-gradient2',
 			element: '#grader-elem-linear',
 			isPausedWhenNotInView: true,
-			opacity: [1, 1],
       gradientType: 'linear',
-      gradientOrigin: 'to top',
+      gradientOrigin: 'to top left',
       backgroundImage: "url('assets/images/cat.png')",
 			stateTransitionSpeed: 5000,
 			animationStep: 50,
@@ -119,7 +120,7 @@
 					loop: false
 				}
 			}
-		});
+		});*/
 	</script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 body {
 	margin: 0;
-	background-color: #888;
-	height: 1500px;
+	background-color: #ffffff;
+	background-image: url("../images/smallgraderjs.png");
 }
 
 h1 {
@@ -20,28 +20,43 @@ body.main-gradient-dark h1 {
 	color: #fff;
 }
 
-.elem-wrapper {
-	position: relative;
-	width: 80%;
-	height: 500px;
-	margin: 10px auto 0;
-	border: solid 5px #555;
+.page-wrapper {
+	position: absolute;;
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
 }
 
-#grader-elem, #grader-elem-linear {
+#grader-elem {
 	position: absolute;
 	width: 100%;
 	height: 100%;
-
-	background-size: cover;
-	background-position: 0 85%;
+	margin: 0px;
+	padding: 0px;
+	z-index: -1;
 }
 
-.grader-controls {
-	text-align: center;
-	margin: 10px 0;
+.content-wrapper {
+    text-align: center;
+    transition-property: color, fill;
+    transition-duration: 1.5s;
+    visibility: hidden;
+    font-size: 16px;
 }
 
-.grader-controls a {
-	margin: 0 10px;
+.content-wrapper nav a {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-right: 15px;
+    border: solid 1px;
+    color: inherit;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 0 0;
+    transition: box-shadow 1s;
+}
+
+.content-wrapper .title span {
+    font-family: Graduate;
 }
