@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>API | Grader.js</title>
+    <meta name="description" content="API for grader.js. Gradients animations in javascript.">
+    <link type="text/css" rel="stylesheet" href="assets/css/prism.css">
+  </head>
+  <body class="api">
+    <header class="main-header">
+      <div class="container clearfix">
+        <div class="bloc-logo">
+          <canvas id="logo-canvas"></canvas><a class="logo-mask" href="index.html">Grader.js</a>
+        </div>
+        <div class="main-nav">
+          <div class="hamburger-icon"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <nav>
+            <ul class="clearfix">
+              <li><a class="text" href="https://github.com/yliohenki/grader.js/releases" target="_blank" rel="external">Download</a></li>
+              <li><a class="text active" href="api.html">API</a></li>
+              <li><a class="text" href="examples.html">Examples</a></li>
+              <li><a class="github" href="https://github.com/yliohenki/grader.js" target="_blank" title="Github" rel="external"></a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <div class="main-content">
+      <div class="container bloc">
+        <h1>API</h1>
+        <h2>options</h2>
+        <p>All the global options available.</p>
+        <table class="api-list">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Default</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>element <span class="required">(required)</span></td>
+              <td>/</td>
+              <td>String</td>
+              <td>
+                A CSS selector for the &lt;canvas&gt; element (e.g. <span class="snippet">'#granim-canvas'</span>)
+                that will be used for the gradient animation.
+              </td>
+            </tr>
+            <tr>
+              <td>name</td>
+              <td>false</td>
+              <td>String</td>
+              <td>
+                This is the prefix used for the dark / light class name added
+                on the <span class="snippet">options.elToSetClassOn</span> element depending on the average gradient lightness,
+                the class will be updated during the animation.
+                If you don't set a name, the class won't be set.
+              </td>
+            </tr>
+            <tr>
+              <td>elToSetClassOn</td>
+              <td>'body'</td>
+              <td>String</td>
+              <td>
+                The element to set the dark / light class on (e.g. <span class="snippet">'#canvas-wrapper'</span>).
+                Is useful only if you set a <span class="snippet">options.name</span>.
+              </td>
+            </tr>
+            <tr>
+              <td>direction</td>
+              <td>'diagonal'</td>
+              <td>String</td>
+              <td>The orientation of the gradient, you can choose between:
+                <ul>
+                  <li><span class="snippet">'diagonal'</span></li>
+                  <li><span class="snippet">'left-right'</span></li>
+                  <li><span class="snippet">'top-bottom'</span></li>
+                  <li><span class="snippet">'radial'</span></li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td>isPausedWhenNotInView</td>
+              <td>false</td>
+              <td>Boolean</td>
+              <td>
+                Does the animation stop when it's not in window view?<br>
+                (Despite this parameter, the animation always pause
+                when changing tab).
+              </td>
+            </tr>
+            <tr>
+              <td>opacity <span class="required">(required)</span></td>
+              <td>/</td>
+              <td>Array of Int</td>
+              <td>
+                You can adapt the opacity of each color of the gradient.<br>
+                if you have two colors <span class="snippet">[1, .5]</span>,
+                or three <span class="snippet">[1, .5, 1]</span>...
+              </td>
+            </tr>
+            <tr>
+              <td>stateTransitionSpeed</td>
+              <td>1000</td>
+              <td>Int</td>
+              <td>Duration of the animation when changing state.</td>
+            </tr>
+            <tr>
+              <td>defaultStateName</td>
+              <td>'default-state'</td>
+              <td>String</td>
+              <td>The name of the default state.</td>
+            </tr>
+            <tr>
+              <td>states <span class="required">(required)</span></td>
+              <td>/</td>
+              <td>Object</td>
+              <td>Object containing all the states, see more info below.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="container bloc">
+        <h2>options.states</h2>
+        <p>
+          All the options available to customize the states and
+          the different gradients.<br>
+          Create a state with the name you want then add these parameters.<br>
+          By default, the name of your first state is <span class="snippet">'default-state'</span>, you can change it with <span class="snippet">options.defaultStateName</span>.
+        </p>
+        <table class="api-list">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Default</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>gradients <span class="required">(required)</span></td>
+              <td>/</td>
+              <td>Array of Arrays</td>
+              <td>
+                The different gradients with the different colors
+                e.g. <span class="snippet">[ ['#FFF', '#000'],
+                ['#000', '#FFF'] ]</span>.<br>
+                The array can contain only one gradient.
+              </td>
+            </tr>
+            <tr>
+              <td>transitionSpeed</td>
+              <td>5000</td>
+              <td>Int</td>
+              <td>Transition duration between each gradient.</td>
+            </tr>
+            <tr>
+              <td>loop</td>
+              <td>true</td>
+              <td>Boolean</td>
+              <td>When the animation has arrived to the last gradient, does it repeat?</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="container bloc">
+        <h2>Callbacks</h2>
+        <p>You can set callbacks.</p>
+        <table class="api-list">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Default</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>onStart</td>
+              <td>false</td>
+              <td>Function</td>
+              <td>Triggered when the animation start.</td>
+            </tr>
+            <tr>
+              <td>onGradientChange</td>
+              <td>false</td>
+              <td>Function</td>
+              <td>Triggered when a gradient change and loop.</td>
+            </tr>
+            <tr>
+              <td>onEnd</td>
+              <td>false</td>
+              <td>Function</td>
+              <td>Triggered when the animation end.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="container bloc">
+        <h2>Emitted events</h2>
+        <p>Granim will emit events you can listen to at key moments.</p>
+        <pre><code class="language-js">// You can listen to these events:
+// - granim:start
+// - granim:end
+// - granim:loop
+// - granim:gradientChange
+<br>
+// js
+var canvasElement = document.querySelector('#granim-canvas');
+canvasElement.addEventListener('granim:start', function(event) {
+    console.log(event);
+});
+<br>
+// with jQuery
+$('#granim-canvas').on('granim:start', function(event) {
+    console.log(event);
+})</code></pre>
+      </div>
+      <div class="container bloc">
+        <h2>Methods</h2>
+        <p>Methods to control the gradients.</p>
+        <pre><code class="language-js">// Change state by putting its name in the argument
+granimInstance.changeState('state-name');
+<br>
+// Play the animation
+granimInstance.play();
+<br>
+// Pause the animation
+granimInstance.pause();
+<br>
+// Stop the animation and clear the gradient
+granimInstance.clear();</code></pre>
+      </div>
+      <div class="container bloc">
+        <h2>Basic configuration</h2>
+        <p>Basic configuration with two states and callbacks set.</p>
+        <pre><code class="language-js">var granimInstance = new Granim({
+    element: '',
+    name: 'granim',
+    elToSetClassOn: 'body',
+    direction: 'diagonal',
+    isPausedWhenNotInView: false,
+    opacity: [1, 1],
+    stateTransitionSpeed: 1000,
+    states : {
+        "default-state": {
+            gradients: [
+                ['#834d9b', '#d04ed6'],
+                ['#1CD8D2', '#93EDC7']
+            ],
+            transitionSpeed: 5000,
+            loop: true
+        },
+        "dark-state": {
+            gradients: [
+                ['#757F9A', '#D7DDE8'],
+                ['#5C258D', '#4389A2']
+            ],
+            transitionSpeed: 5000,
+            loop: true
+        }
+    },
+    onStart: function() {
+        console.log('Granim: onStart');
+    },
+    onGradientChange: function(colorDetails) {
+        console.log('Granim: onGradientChange, details: ');
+        console.log(colorDetails);
+    },
+    onEnd: function() {
+        console.log('Granim: onEnd');
+    }
+);</code></pre>
+        <p>
+          You can use more than 2 colors for the gradients,
+          but cannot have different length of colors in the
+          different states. you will also have to
+          <strong>adapt the opacity</strong>.
+        </p>
+        <pre><code class="language-js">var granimInstance = new Granim({
+    element: '',
+    name: 'granim',
+    elToSetClassOn: 'body',
+    direction: 'diagonal',
+    isPausedWhenNotInView: false,
+    opacity: [1, 1, .5, 1],
+    stateTransitionSpeed: 1000,
+    states : {
+        "default-state": {
+            gradients: [
+                ['#834d9b', '#d04ed6', '#1CD8D2', '#93EDC7'],
+                ['#1CD8D2', '#93EDC7', '#757F9A', '#4389A2']
+            ],
+            transitionSpeed: 5000,
+            loop: true
+        },
+        "dark-state": {
+            gradients: [
+                ['#757F9A', '#D7DDE8', '#1CD8D2', '#93EDC7'],
+                ['#5C258D', '#4389A2', '#1CD8D2', '#93EDC7']
+            ],
+            transitionSpeed: 5000,
+            loop: true
+        }
+    }
+);</code></pre>
+      </div>
+    </div>
+    <script src="assets/js/vendor/jquery-3.1.0.min.js"></script>
+    <script src="assets/js/vendor/granim.min.js"></script>
+    <script src="assets/js/vendor/prism.js"></script>
+    <script type="text/javascript">var pageId = 'api';</script>
+    <script src="assets/js/script.js"></script>
+    <script type="text/javascript">
+      (function(i, s, o, g, r, a, m) {
+          i['GoogleAnalyticsObject'] = r;
+          i[r] = i[r] || function() {
+                      (i[r].q = i[r].q || []).push(arguments)
+                  }, i[r].l = 1 * new Date();
+          a = s.createElement(o),
+                  m = s.getElementsByTagName(o)[0];
+          a.async = 1;
+          a.src = g;
+          m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+      ga('create', 'UA-83387901-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>

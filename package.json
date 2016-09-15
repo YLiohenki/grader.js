@@ -1,7 +1,7 @@
 {
   "name": "grader.js",
   "version": "0.0.1",
-  "description": "dynamic gradients for background-image property ",
+  "description": "dynamic gradients for background-image property",
   "main": "index.js",
   "scripts": {
     "test": "test",
