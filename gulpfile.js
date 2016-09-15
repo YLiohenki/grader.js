@@ -36,6 +36,14 @@ gulp.task('docDist', ['buildMin'], function() {
 		.pipe(copy('./docs/assets/js/', { prefix: 1 }));
 });
 
+gulp.task('buildDoc:html', function() {
+	return gulp.src('./docs/assets/pug/*.pug')
+		.pipe(pug({
+			pretty: true
+		}))
+		.pipe(gulp.dest('./docs/'));
+});
+
 // TASKS
 	// lib
   gulp.task('default', ['build', 'buildMin', 'docDist']);

@@ -18,7 +18,7 @@
 						<span>Grader.js</span>
           </h1>
           <p class="description">
-            Create fluid and interactive gradients animations on any tag<br>
+            Create interactive gradient animation on any html element<br>
             with this small <span class="app-size">(&lt; 10kB)</span> .js library
           </p>
         </div>
@@ -43,11 +43,11 @@
 			states : {
 				"default-state": {
 					gradients: [
-						[{ color: '#7474BF'}, { color: '#348AC7'}],
-            [{ color: '#2196f3', size: -0.2}, { color: '#f44336'}],
-            [{ color: '#2c3e50'}, { color: '#3498db', opacity: 0.5}],
-            [{ color: '#5C258D'}, { color: '#4389A2'}],
-            [{ color: '#000428'}, { color: '#003d81'}]
+						['#7474BF', '#348AC7'],
+            [{ color: '#2196f3', size: -0.2}, '#f44336'],
+            ['#2c3e50', { color: '#3498db', opacity: 0.5}],
+            ['#5C258D', '#4389A2'],
+            ['#000317', '#002c70']
 					],
 					transitionSpeed: 5000,
 					loop: true
@@ -78,39 +78,10 @@
 			}
 		});
 
-		graderGreenButtonInstance = new Grader({
-			name: 'green-button-gradient',
-			element: '#green-state',
-			isPausedWhenNotInView: true,
-			opacity: [0, 0],
-      gradientType: 'radial',
-      gradientOrigin: 'ellipse closest-side',
-			stateTransitionSpeed: 1000,
-			animationStep: 50,
-			states : {
-				"default-state": {
-					gradients: [
-						[{ color: '#ffffff'}, { color: '#ffffff'}]
-					],
-					transitionSpeed: 5000,
-					loop: false
-				},
-				"hover-state": {
-					gradients: [
-						[{ color: '#ffffff', size: 0.6 , opacity: 0.2}, { color: '#ffffff', size: 0.9, opacity: 0.7}]
-					],
-					transitionSpeed: 5000,
-					loop: false
-				}
-			}
-		});
-
 		$('#green-state').hover(function() {
 			graderInstance.changeState('green-state');
-			graderGreenButtonInstance.changeState("hover-state");
 		}, function() {
 			graderInstance.changeState('default-state');
-			graderGreenButtonInstance.changeState("default-state");
 		});
 		$('#red-state').hover(function() {
 			graderInstance.changeState('red-state');

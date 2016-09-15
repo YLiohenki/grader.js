@@ -13,6 +13,8 @@ function Grader(options) {
     this.stateTransitionSpeed = options.stateTransitionSpeed || 2000;
     this.animationStep = options.animationStep;
     this.opacity = options.opacity;
+    this.isPausedWhenNotInView = options.isPausedWhenNotInView === false ? false : true;//default true
+    this.pauseWhenTabIsntActive = options.pauseWhenTabIsntActive || false;//default false
 
     this.paused = false;
     this.refreshIntervalId = null;
@@ -22,10 +24,14 @@ function Grader(options) {
     this.step = 0;
 
     this.changeState(this.defaultState);
-
     this.previousStepTimeStamp = Date.now();
-
     this.resume();
+    if (this.isPausedWhenNotInView != false) {
+        this.pauseWhenNotInView();
+    }
+    if (this.pauseWhenTabIsntActive) {
+        this.pauseWhenTabIsntActive();
+    }
 }
 
 Grader.prototype.updateGradient = require('./updateGradient.js');
@@ -34,10 +40,12 @@ Grader.prototype.resume = require('./resume.js');
 Grader.prototype.pause = require('./pause.js');
 Grader.prototype.getOpacity = require('./getOpacity.js');
 Grader.prototype.getLightness = require('./getLightness.js');
+Grader.prototype.pauseWhenNotInView = require('./pauseWhenNotInView.js');
+Grader.prototype.pauseWhenTabIsntActive = require('./pauseWhenTabIsntActive.js');
 
 module.exports = Grader;
 
-},{"./changeState.js":2,"./getLightness.js":3,"./getOpacity.js":4,"./pause.js":5,"./resume.js":6,"./updateGradient.js":7}],2:[function(require,module,exports){
+},{"./changeState.js":2,"./getLightness.js":3,"./getOpacity.js":4,"./pause.js":5,"./pauseWhenNotInView.js":6,"./pauseWhenTabIsntActive.js":7,"./resume.js":8,"./updateGradient.js":9}],2:[function(require,module,exports){
 'use strict';
 
 module.exports = function(state) {
@@ -45,7 +53,7 @@ module.exports = function(state) {
         return;
     }
 
-    var hereOldActiveState = !!this.activeState;
+    var itsInitialChangeState = !this.activeState;
 
     this.workingState = this.states[state];
 
@@ -53,7 +61,12 @@ module.exports = function(state) {
         var size = 0;
         return state.map(function(grad) {
             var result = {};
-            var colorInt = parseInt(grad.color.substring(1), 16);
+            var colorInt;
+            if (typeof grad == "string") {
+                colorInt = parseInt(grad.substring(1), 16);
+            } else {
+                colorInt = parseInt(grad.color.substring(1), 16);
+            }
             result.red = (colorInt >> 16) & 0xFF;
             result.green = (colorInt >> 8) & 0xFF;
             result.blue = colorInt & 0xFF;
@@ -68,7 +81,7 @@ module.exports = function(state) {
         this.pause();
     }
 
-    if (!hereOldActiveState) {
+    if (itsInitialChangeState) {
         this.activeState = state;
         this.previousStepTimeStamp = Date.now();
         this.speed = this.workingState.transitionSpeed || this.stateTransitionSpeed;
@@ -94,7 +107,7 @@ module.exports = function(state) {
         this.activeState = state;
         this.isChangingState = false;
         if (this.changeStateIntervalId)
-          clearInterval(this.changeStateIntervalId);
+            clearInterval(this.changeStateIntervalId);
         this.changeStateIntervalId = null;
         this.changeStateTimeout = null;
         this.previousStepTimeStamp = Date.now();
@@ -163,19 +176,79 @@ module.exports = function(color, isFirstColor) {
 },{}],5:[function(require,module,exports){
 'use strict';
 
-module.exports = function()
-{
-  this.paused = true;
-  this.stopedAtTimeStamp = Date.now();
-  clearInterval(this.refreshIntervalId);
-  this.refreshIntervalId = null;
+module.exports = function() {
+    if (this.paused)
+        return;
+    this.paused = true;
+    this.stopedAtTimeStamp = Date.now();
+    clearInterval(this.refreshIntervalId);
+    this.refreshIntervalId = null;
 }
 
 },{}],6:[function(require,module,exports){
 'use strict';
 
+module.exports = function() {
+    var timeout;
+
+    var pauseWhenNotInView = function(init) {
+        console.log('pauseWhenNotInView');
+        if (timeout) clearTimeout(timeout);
+
+        timeout = setTimeout(function() {
+            var rect = this.element.getBoundingClientRect();
+            var isNotInView =
+                rect.bottom < 0 ||
+                rect.right < 0 ||
+                rect.left > window.innerWidth ||
+                rect.top > window.innerHeight;
+
+            if (isNotInView) {
+                if (!this.isPaused && !this.isPausedBecauseNotInView) {
+                    this.isPausedBecauseNotInView = true;
+                    this.pause('isPausedBecauseNotInView');
+                }
+            } else {
+                if (!this.isPaused || init === true) {
+                    this.isPausedBecauseNotInView = false;
+                    this.resume('isPausedBecauseNotInView');
+                }
+            }
+        }.bind(this), 300);
+    }.bind(this);
+
+    window.addEventListener('scroll', pauseWhenNotInView);
+    pauseWhenNotInView(true);
+};
+
+},{}],7:[function(require,module,exports){
+'use strict';
+
+module.exports = function() {
+
+    var timeoutFocus;
+
+    window.addEventListener("focus", function(event) {
+        console.log('focus');
+        if (timeoutFocus)
+            clearTimeout(timeoutFocus);
+        timeoutFocus = setTimeout(function() {
+            this.resume();
+        }.bind(this), 300);
+    }, false);
+    window.addEventListener("blur", function(event) {
+        console.log('blur');
+        this.pause();
+    }.bind(this), false);
+};
+
+},{}],8:[function(require,module,exports){
+'use strict';
+
 module.exports = function()
 {
+  if (!this.paused)
+      return;
   this.paused = false;
   if (this.stopedAtTimeStamp)
   {
@@ -185,7 +258,7 @@ module.exports = function()
   this.refreshIntervalId = setInterval(this.updateGradient.bind(this), this.animationStep || 200);
 }
 
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -257,7 +330,7 @@ module.exports = function() {
     this.element.classList.add("grader-" + this.getLightness());
 };
 
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 window.Grader = require('./lib/Grader.js');
 
-},{"./lib/Grader.js":1}]},{},[8]);
+},{"./lib/Grader.js":1}]},{},[10]);
