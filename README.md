@@ -9,23 +9,23 @@ Create interactive gradient animation on any html element with this small (< 10k
 
 ## How to use
 ```html
-<!-- Choose some html element a <canvas> element -->
+<!-- Choose some html element -->
 <div id="grader-element"></div>
 
 <!-- Call the script -->
-<script src="granim.min.js"></script>
+<script src="grader.min.js"></script>
 
-<!-- Create a Granim instance -->
+<!-- Create a Grader instance -->
 <script>
-var granimInstance = new Granim({
+var graderInstance = new Grader({
    element: '#grader-element',
    name: 'some-grader',
    opacity: [1, 1],
    states : {
        "default-state": {
            gradients: [
-               ['#834D9B', '#D04ED6'],
-               ['#1CD8D2', '#93EDC7']
+               [{color: '#834D9B'}, {color: '#D04ED6'}],
+               [{color: '#1CD8D2'}, {color: '#93EDC7'}]
            ]
        }
    }
