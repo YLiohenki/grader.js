@@ -26,8 +26,8 @@ var graderInstance = new Grader({
    states : {
        "default-state": {
            gradients: [
-               [{color: '#834D9B'}, {color: '#D04ED6'}],
-               [{color: '#1CD8D2'}, {color: '#93EDC7'}]
+               ['#834D9B', '#D04ED6'],
+               ['#1CD8D2', '#93EDC7']
            ]
        }
    }
