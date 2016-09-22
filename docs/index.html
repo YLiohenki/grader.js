@@ -113,8 +113,6 @@
 		graderHeaderInstance = new Grader({
 			name: 'header-grader-gradient',
 			element: '#GraderHeader',
-			isPausedWhenNotInView: true,
-			opacity: [1, 1],
 			gradientType: 'linear',
 			gradientOrigin: 'to bottom',
 			stateTransitionSpeed: 1000,
@@ -128,18 +126,16 @@
 						}, {
 							color: '#545454'
 						}]
-					],
-					loop: false
+					]
 				},
 				"light-state": {
 					gradients: [
 						[{
 							color: '#ffffff'
 						}, {
-							color: '#434343'
+							color: '#232323'
 						}]
-					],
-					loop: false
+					]
 				},
 			}
 		});

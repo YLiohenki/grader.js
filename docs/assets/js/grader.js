@@ -253,6 +253,11 @@ module.exports = function() {
     this.stopedAtTimeStamp = Date.now();
     clearInterval(this.refreshIntervalId);
     this.refreshIntervalId = null;
+
+    if (this.events)
+  	{
+  		document.dispatchEvent(this.events.pause);
+  	}
 }
 
 },{}],8:[function(require,module,exports){
@@ -325,6 +330,11 @@ module.exports = function()
     this.stopedAtTimeStamp = null;
   }
   this.refreshIntervalId = setInterval(this.updateGradient.bind(this), this.animationStep || 200);
+
+  if (this.events)
+  {
+    document.dispatchEvent(this.events.resume);
+  }
 }
 
 },{}],11:[function(require,module,exports){
@@ -336,7 +346,7 @@ module.exports = function() {
     if (!this.isChangingState && currentTimeStamp - this.previousStepTimeStamp >= this.speed) {
         this.step += 1;
         this.previousStepTimeStamp = currentTimeStamp;
-        if (this.step == this.gradients.length - 1 && !this.workingState.loop) //if it isn't looping, stay on last gradient, not first
+        if (this.step >= this.gradients.length - 1 && !this.workingState.loop) //if it isn't looping, stay on last gradient, not first
         {
             clearInterval(this.refreshIntervalId);
             return;
