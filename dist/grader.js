@@ -15,6 +15,9 @@ function Grader(options) {
     this.opacity = options.opacity;
     this.isPausedWhenNotInView = options.isPausedWhenNotInView === false ? false : true;//default true
     this.pauseWhenTabIsntActive = options.pauseWhenTabIsntActive || false;//default false
+    this.applyToText = !!options.applyToText;
+    this.name = options.name;
+    this.emitEvents = !!options.emitEvents;
 
     this.paused = false;
     this.refreshIntervalId = null;
@@ -22,6 +25,15 @@ function Grader(options) {
     this.gradients = null;
     this.speed = null;
     this.step = 0;
+    this.eventPolyfill();
+    this.events = this.emitEvents ? this.getEvents() : null;
+    this.callbacks = {
+      onStart: typeof options.onStart === 'function' ? options.onStart : false,
+      onGradientChange: typeof options.onGradientChange === 'function' ?
+        options.onGradientChange :
+        false,
+      onEnd: typeof options.onEnd === 'function' ? options.onEnd : false
+    };
 
     this.changeState(this.defaultState);
     this.previousStepTimeStamp = Date.now();
@@ -42,10 +54,12 @@ Grader.prototype.getOpacity = require('./getOpacity.js');
 Grader.prototype.getLightness = require('./getLightness.js');
 Grader.prototype.pauseWhenNotInView = require('./pauseWhenNotInView.js');
 Grader.prototype.pauseWhenTabIsntActive = require('./pauseWhenTabIsntActive.js');
+Grader.prototype.eventPolyfill = require('./eventPolyfill.js');
+Grader.prototype.getEvents = require('./getEvents.js');
 
 module.exports = Grader;
 
-},{"./changeState.js":2,"./getLightness.js":3,"./getOpacity.js":4,"./pause.js":5,"./pauseWhenNotInView.js":6,"./pauseWhenTabIsntActive.js":7,"./resume.js":8,"./updateGradient.js":9}],2:[function(require,module,exports){
+},{"./changeState.js":2,"./eventPolyfill.js":3,"./getEvents.js":4,"./getLightness.js":5,"./getOpacity.js":6,"./pause.js":7,"./pauseWhenNotInView.js":8,"./pauseWhenTabIsntActive.js":9,"./resume.js":10,"./updateGradient.js":11}],2:[function(require,module,exports){
 'use strict';
 
 module.exports = function(state) {
@@ -122,6 +136,57 @@ module.exports = function(state) {
 'use strict';
 
 module.exports = function() {
+	if ( typeof window.CustomEvent === "function" ) return;
+
+	function CustomEvent (event, params) {
+		params = params || { bubbles: false, cancelable: false, detail: undefined };
+		var evt = document.createEvent('CustomEvent');
+		evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+		return evt;
+	}
+
+	CustomEvent.prototype = window.Event.prototype;
+
+	window.CustomEvent = CustomEvent;
+};
+
+},{}],4:[function(require,module,exports){
+'use strict';
+
+module.exports = function() {
+    return {
+        start: new CustomEvent('grader:' + this.name + ':start'),
+        end: new CustomEvent('grader:' + this.name + ':end'),
+        pause: new CustomEvent('grader:' + this.name + ':pause'),
+        resume: new CustomEvent('grader:' + this.name + ':resume'),
+        lightnessChange: function(details) {
+            return new CustomEvent('grader:' + this.name + ':lightnessChange', {
+                detail: {
+                    state: details.state,
+                },
+                bubbles: false,
+                cancelable: false
+            })
+        }.bind(this),
+        gradientChange: function(details) {
+            return new CustomEvent('grader:' + this.name + ':gradientChange', {
+                detail: {
+                    isLooping: details.isLooping,
+                    colorsFrom: details.colorsFrom,
+                    colorsTo: details.colorsTo,
+                    activeState: details.activeState
+                },
+                bubbles: false,
+                cancelable: false
+            })
+        }.bind(this)
+    }
+};
+
+},{}],5:[function(require,module,exports){
+'use strict';
+
+module.exports = function() {
 	var currentColors = [this.firstColor, this.secondColor];
 	var colorsAverage = [];
 	var gradientAverage = null;
@@ -146,11 +211,16 @@ module.exports = function() {
 			lightnessAverage = Math.round(gradientAverage / (i + 1));
 		}
 	});
-
-	return lightnessAverage >= 128 ? 'light' : 'dark';
+	var lightness = lightnessAverage >= 128 ? 'light' : 'dark';
+	if (this.lightness && this.lightness != lightness && this.events)
+	{
+		document.dispatchEvent(this.events.lightnessChange({ state : lightness }));
+	}
+	this.lightness = lightness
+	return this.lightness;
 };
 
-},{}],4:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 module.exports = function(color, isFirstColor) {
@@ -173,7 +243,7 @@ module.exports = function(color, isFirstColor) {
     return prev;
 }
 
-},{}],5:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -185,14 +255,13 @@ module.exports = function() {
     this.refreshIntervalId = null;
 }
 
-},{}],6:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
     var timeout;
 
     var pauseWhenNotInView = function(init) {
-        console.log('pauseWhenNotInView');
         if (timeout) clearTimeout(timeout);
 
         timeout = setTimeout(function() {
@@ -221,7 +290,7 @@ module.exports = function() {
     pauseWhenNotInView(true);
 };
 
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -242,7 +311,7 @@ module.exports = function() {
     }.bind(this), false);
 };
 
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 module.exports = function()
@@ -258,7 +327,7 @@ module.exports = function()
   this.refreshIntervalId = setInterval(this.updateGradient.bind(this), this.animationStep || 200);
 }
 
-},{}],9:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -283,6 +352,7 @@ module.exports = function() {
     var prevGradient = this.isChangingState ? this.oldStateGradient : this.gradients[this.step];
     var nextGradient = this.isChangingState ? this.gradients[0] : this.gradients[this.step + 1 < this.gradients.length ? this.step + 1 : 0];
 
+    this.oldFirstColor = this.firstColor;
     this.firstColor = {};
     this.firstColor.red = prevGradient[0].red * (1 - substep) + nextGradient[0].red * substep;
     this.firstColor.green = prevGradient[0].green * (1 - substep) + nextGradient[0].green * substep;
@@ -290,6 +360,7 @@ module.exports = function() {
     this.firstColor.size = prevGradient[0].size * (1 - substep) + nextGradient[0].size * substep;
     this.firstColor.opacity = this.getOpacity(prevGradient[0], true) * (1 - substep) + this.getOpacity(nextGradient[0], true) * substep;
 
+    this.oldSecondColor = this.secondColor;
     this.secondColor = {};
     var nextGradientSecondColor = nextGradient[1] ? nextGradient[1] : nextGradient[0];
     var prevGradientSecondColor = prevGradient[1] ? prevGradient[1] : prevGradient[0];
@@ -322,15 +393,28 @@ module.exports = function() {
         "; background:" + imageString + "-o-" + gradientString /* For Opera 11.1 to 12.0 */ +
         "; background:" + imageString + "-moz-" + gradientString /* For Firefox 3.6 to 15 */ +
         "; background:" + imageString + "-ms-" + gradientString /* Just for fun and profit */ +
-        "; background:" + imageString + gradientString
+        "; background:" + imageString + gradientString +
+        ((this.workingState.applyToText || (this.workingState.applyToText != false && this.applyToText)) ? ";-webkit-background-clip: text;-webkit-text-fill-color: transparent;" : "")
     );
+
     this.element.classList.remove("grader-dark");
     this.element.classList.remove("grader-light");
 
     this.element.classList.add("grader-" + this.getLightness());
+
+    if (this.events)
+  	{
+  		document.dispatchEvent(this.events.gradientChange(
+        {
+          isLooping: this.workingState.loop,
+          colorsFrom: [this.oldFirstColor, this.oldSecondColor],
+          colorsTo: [this.firstColor, this.secondColor],
+          activeState: this.workingState
+        }));
+  	}
 };
 
-},{}],10:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 window.Grader = require('./lib/Grader.js');
 
-},{"./lib/Grader.js":1}]},{},[10]);
+},{"./lib/Grader.js":1}]},{},[12]);

@@ -1,77 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<title>Grader - Easy javascript gradient animation on any element</title>
 	<meta charset="UTF-8">
 	<title>Grader.js</title>
 	<link rel="stylesheet" href="assets/css/style.css">
 	<link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Graduate:regular:latin'>
-  <script src="assets/js/grader.js"></script>
+	<script src="assets/js/grader.js"></script>
 	<script src="https://code.jquery.com/jquery-3.1.0.slim.min.js"></script>
 </head>
+
 <body class="home">
 	<div class="page-wrapper">
 		<div id="grader-elem"></div>
 		<div class="content-wrapper" style="margin-top: 358.219px; visibility: visible;">
-        <div class="description-wrapper">
-          <h1 class="title" title="grader.js">
+			<div class="description-wrapper">
+				<h1 id="GraderHeader" class="title" title="grader.js">
 						<span>Grader.js</span>
           </h1>
-          <p class="description">
-            Create interactive gradient animation on any html element<br>
-            with this small <span class="app-size">(&lt; 10kB)</span> .js library
-          </p>
-        </div>
-        <nav>
-					<a class="link" id="green-state" href="examples.html">Examples</a>
-					<a class="link" id="red-state" href="api.html">API</a>
-					<a class="link" id="dark-state" href="https://github.com/YLiohenki/grader.js/releases" target="_blank" rel="external">Download</a></nav>
-      </div>
+				<p class="description">
+					Create interactive gradient animation on any html element<br> with this small <span class="app-size">(&lt; 10kB)</span> .js library
+				</p>
+			</div>
+			<nav>
+				<a class="link" id="green-state" href="examples.html">Examples</a>
+				<a class="link" id="red-state" href="api.html">API</a>
+				<a class="link" id="dark-state" href="https://github.com/YLiohenki/grader.js/releases" target="_blank" rel="external">Download</a></nav>
+		</div>
 	</div>
 	<script>
-	var graderInstance;
+		var graderInstance;
 
 		graderInstance = new Grader({
 			name: 'main-gradient',
 			element: '#grader-elem',
 			isPausedWhenNotInView: true,
 			opacity: [1, 1],
-      gradientType: 'linear',
-      gradientOrigin: 'to bottom right',
+			gradientType: 'linear',
+			gradientOrigin: 'to bottom right',
 			stateTransitionSpeed: 1000,
 			animationStep: 50,
-			states : {
+			emitEvents: true,
+			states: {
 				"default-state": {
 					gradients: [
 						['#7474BF', '#348AC7'],
-            [{ color: '#2196f3', size: -0.2}, '#f44336'],
-            ['#2c3e50', { color: '#3498db', opacity: 0.5}],
-            ['#5C258D', '#4389A2'],
-            ['#000317', '#002c70']
+						[{
+							color: '#2196f3',
+							size: -0.2
+						}, '#f44336'],
+						['#2c3e50', {
+							color: '#3498db',
+							opacity: 0.5
+						}],
+						['#5C258D', '#4389A2'],
+						['#000317', '#002c70']
 					],
 					transitionSpeed: 5000,
 					loop: true
 				},
 				"green-state": {
 					gradients: [
-						[{ color: '#348F50'}, { color: '#56B4D3'}],
-						[{ color: '#215f00'}, { color: '#e4e4d9'}],
-						[{ color: '#134E5E'}, { color: '#71B280'}]
+						[{
+							color: '#348F50'
+						}, {
+							color: '#56B4D3'
+						}],
+						[{
+							color: '#215f00'
+						}, {
+							color: '#e4e4d9'
+						}],
+						[{
+							color: '#134E5E'
+						}, {
+							color: '#71B280'
+						}]
 					],
 					transitionSpeed: 1000,
 					loop: false
 				},
 				"red-state": {
 					gradients: [
-						[{ color: '#e43a15'}, { color: '#e65245'}],
-            [{ color: '#A83279'}, { color: '#D38312'}]
+						[{
+							color: '#e43a15'
+						}, {
+							color: '#e65245'
+						}],
+						[{
+							color: '#A83279'
+						}, {
+							color: '#D38312'
+						}]
 					],
 					transitionSpeed: 1000,
 					loop: false
 				},
 				"dark-state": {
 					gradients: [
-						[{ color: '#000000'}, { color: '#434343'}]
+						[{
+							color: '#000000'
+						}, {
+							color: '#434343'
+						}]
+					],
+					loop: false
+				},
+			}
+		});
+
+		graderHeaderInstance = new Grader({
+			name: 'header-grader-gradient',
+			element: '#GraderHeader',
+			isPausedWhenNotInView: true,
+			opacity: [1, 1],
+			gradientType: 'linear',
+			gradientOrigin: 'to bottom',
+			stateTransitionSpeed: 1000,
+			animationStep: 50,
+			applyToText: true,
+			states: {
+				"default-state": {
+					gradients: [
+						[{
+							color: '#000000'
+						}, {
+							color: '#545454'
+						}]
+					],
+					loop: false
+				},
+				"light-state": {
+					gradients: [
+						[{
+							color: '#ffffff'
+						}, {
+							color: '#434343'
+						}]
 					],
 					loop: false
 				},
@@ -85,13 +151,20 @@
 		});
 		$('#red-state').hover(function() {
 			graderInstance.changeState('red-state');
-		},function() {
+		}, function() {
 			graderInstance.changeState('default-state');
 		});
 		$('#dark-state').hover(function() {
 			graderInstance.changeState('dark-state');
-		},function() {
+		}, function() {
 			graderInstance.changeState('default-state');
+		});
+		document.addEventListener("grader:main-gradient:lightnessChange", function(e) {
+			if (e.detail.state == 'dark') {
+				graderHeaderInstance.changeState('light-state');
+			} else {
+				graderHeaderInstance.changeState('default-state');
+			}
 		});
 	</script>
 
@@ -112,4 +185,5 @@
 		ga('send', 'pageview');
 	</script>
 </body>
+
 </html>

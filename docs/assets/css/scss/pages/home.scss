@@ -53,6 +53,11 @@ h1 {
         text-decoration: none;
     }
 
+		#GraderHeader
+		{
+			-webkit-background-clip: text;
+    	-webkit-text-fill-color: transparent;
+		}
     .title span {
         font-family: Graduate;
     		font-size: 90px;
