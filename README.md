@@ -1,4 +1,5 @@
-# Grader.js
+# Grader.js [![Build Status](https://travis-ci.org/YLiohenki/grader.js.svg?branch=master)](https://travis-ci.org/YLiohenki/grader.js)
+
 Create interactive gradient animation on any html element with this small (< 10kB) .js library.
 
 Currently (2016-September-15), only IE10+ supports gradients animation. This library allows you create gradient animation in IE9+, Chrome, FF, Opera with additional functionality (like multi-state support, animation loop, pause/resume, easy list of gradients animation etc.)
