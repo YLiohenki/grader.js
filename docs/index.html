@@ -14,19 +14,34 @@
 <body class="home">
 	<div class="page-wrapper">
 		<div id="grader-elem"></div>
-		<div class="content-wrapper" style="margin-top: 358.219px; visibility: visible;">
+		<div class="content-wrapper">
 			<div class="description-wrapper">
 				<h1 id="GraderHeader" class="title" title="grader.js">
 						<span>Grader.js</span>
           </h1>
-				<p class="description">
+				<p id="GraderText" class="description">
 					Create interactive gradient animation on any html element<br> with this small <span class="app-size">(&lt; 10kB)</span> .js library
 				</p>
 			</div>
 			<nav>
 				<a class="link" id="green-state" href="examples.html">Examples</a>
 				<a class="link" id="red-state" href="api.html">API</a>
-				<a class="link" id="dark-state" href="https://github.com/YLiohenki/grader.js/releases" target="_blank" rel="external">Download</a></nav>
+				<a class="link" id="dark-state" href="https://github.com/YLiohenki/grader.js/releases" target="_blank" rel="external">Download</a>
+			</nav>
+		</div>
+		<div id="social-wrapper">
+			<a target="_blank" href="https://github.com/YLiohenki/grader.js/" class="share-github" id="share-github">
+				<span class="icon icon-github"></span>
+				<span class="share-title">Fork on GitHub</span>
+			</a>
+			<a target="_blank" href="http://www.facebook.com/sharer.php?u=https://yliohenki.github.io/grader.js/" class="share-facebook" id="share-facebook">
+        <span class="icon icon-facebook"></span>
+        <span class="share-title">Share on Facebook</span>
+      </a>
+			<a target="_blank" href="http://twitter.com/share?url=https://yliohenki.github.io/grader.js/&amp;text=Dynamic%20interactive%20gradients%20animation%20on%20any%20html%20element&amp;via=_ighosh" class="share-twitter" id="share-twitter">
+        <span class="icon icon-twitter"></span>
+        <span class="share-title">Share on Twitter</span>
+      </a>
 		</div>
 	</div>
 	<script>
@@ -41,7 +56,16 @@
 			gradientOrigin: 'to bottom right',
 			stateTransitionSpeed: 1000,
 			animationStep: 50,
-			emitEvents: true,
+			callbacks: {onLightnessChange: function(detail)
+			{
+				if (detail.state == 'dark') {
+					graderHeaderInstance.changeState('light-state');
+					graderTextInstance.changeState('light-state');
+				} else {
+					graderHeaderInstance.changeState('default-state');
+					graderTextInstance.changeState('default-state');
+				}
+			}},
 			states: {
 				"default-state": {
 					gradients: [
@@ -114,28 +138,44 @@
 			name: 'header-grader-gradient',
 			element: '#GraderHeader',
 			gradientType: 'linear',
-			gradientOrigin: 'to bottom',
+			gradientOrigin: '135deg',
 			stateTransitionSpeed: 1000,
 			animationStep: 50,
 			applyToText: true,
 			states: {
 				"default-state": {
 					gradients: [
-						[{
-							color: '#000000'
-						}, {
-							color: '#545454'
-						}]
+						['#000000', '#545454']
 					]
 				},
 				"light-state": {
 					gradients: [
-						[{
-							color: '#ffffff'
-						}, {
-							color: '#232323'
-						}]
+						['#ffffff', '#232323']
 					]
+				},
+			}
+		});
+
+		graderTextInstance = new Grader({
+			name: 'text-grader-gradient',
+			element: '#GraderText',
+			gradientType: 'linear',
+			gradientOrigin: 'to top right',
+			stateTransitionSpeed: 1000,
+			animationStep: 50,
+			applyToText: true,
+			states: {
+				"default-state": {
+					gradients: [
+						['#000000', '#545454']
+					]
+				},
+				"light-state": {
+					gradients: [
+						['#ffffff', '#898989'],
+						['#ffcc33', '#870000']
+					],
+					transitionSpeed: 5000,
 				},
 			}
 		});
@@ -154,13 +194,6 @@
 			graderInstance.changeState('dark-state');
 		}, function() {
 			graderInstance.changeState('default-state');
-		});
-		document.addEventListener("grader:main-gradient:lightnessChange", function(e) {
-			if (e.detail.state == 'dark') {
-				graderHeaderInstance.changeState('light-state');
-			} else {
-				graderHeaderInstance.changeState('default-state');
-			}
 		});
 	</script>
 

@@ -1,0 +1,89 @@
+#social-wrapper {
+    position: fixed;
+    text-align: right;
+    top: 15px;
+    right: 15px;
+
+    a {
+        border-radius: 2px;
+        color: #fff;
+        font-weight: 400;
+        margin: 0 10px 10px 0;
+        text-decoration: none;
+    }
+
+    .icon {
+        font-size: 17px;
+        padding: 0 5px 0 10px;
+    }
+
+    span {
+        font-size: 12px;
+        vertical-align: top;
+    }
+
+    a,
+    span {
+        display: inline-block;
+        height: 32px;
+        line-height: 32px;
+    }
+
+    .icon:before {
+        line-height: 32px;
+    }
+
+    .share-facebook {
+        background-color: #455fa2;
+    }
+
+    .share-twitter {
+        background-color: #55acee;
+    }
+
+    .share-github {
+        background-color: #485563;
+    }
+
+    *,
+    :after,
+    :before {
+        box-sizing: border-box;
+    }
+
+    .share-title {
+        -webkit-font-smoothing: antialiased;
+        -moz-font-smoothing: antialiased;
+        -ms-font-smoothing: antialiased;
+        font-smoothing: antialiased;
+        font-size: 12px;
+        font-weight: 900;
+        padding-right: 10px;
+        font-family: 'Helvetica Neue',Arial,sans-serif;
+    }
+}
+
+[class*=" icon-"],
+[class^=icon-] {
+    font-family: uigradicons;
+    speak: none;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-github:before {
+    content: "e";
+}
+
+.icon-facebook:before {
+    content: "b";
+}
+
+.icon-twitter:before {
+    content: "c";
+}

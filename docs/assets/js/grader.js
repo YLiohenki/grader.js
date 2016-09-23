@@ -25,15 +25,15 @@ function Grader(options) {
     this.gradients = null;
     this.speed = null;
     this.step = 0;
-    this.eventPolyfill();
-    this.events = this.emitEvents ? this.getEvents() : null;
-    this.callbacks = {
-      onStart: typeof options.onStart === 'function' ? options.onStart : false,
-      onGradientChange: typeof options.onGradientChange === 'function' ?
-        options.onGradientChange :
+    this.callbacks = options.callbacks ? {
+      onStart: typeof options.callbacks.onStart === 'function' ? options.callbacks.onStart : false,
+      onGradientChange: typeof options.callbacks.onGradientChange === 'function' ?
+        options.callbacks.onGradientChange :
         false,
-      onEnd: typeof options.onEnd === 'function' ? options.onEnd : false
-    };
+      onEnd: typeof options.callbacks.onEnd === 'function' ? options.callbacks.onEnd : false,
+      onLightnessChange: typeof options.callbacks.onLightnessChange === 'function' ?
+       options.callbacks.onLightnessChange : false
+    } : null;
 
     this.changeState(this.defaultState);
     this.previousStepTimeStamp = Date.now();
@@ -55,11 +55,10 @@ Grader.prototype.getLightness = require('./getLightness.js');
 Grader.prototype.pauseWhenNotInView = require('./pauseWhenNotInView.js');
 Grader.prototype.pauseWhenTabIsntActive = require('./pauseWhenTabIsntActive.js');
 Grader.prototype.eventPolyfill = require('./eventPolyfill.js');
-Grader.prototype.getEvents = require('./getEvents.js');
 
 module.exports = Grader;
 
-},{"./changeState.js":2,"./eventPolyfill.js":3,"./getEvents.js":4,"./getLightness.js":5,"./getOpacity.js":6,"./pause.js":7,"./pauseWhenNotInView.js":8,"./pauseWhenTabIsntActive.js":9,"./resume.js":10,"./updateGradient.js":11}],2:[function(require,module,exports){
+},{"./changeState.js":2,"./eventPolyfill.js":3,"./getLightness.js":4,"./getOpacity.js":5,"./pause.js":6,"./pauseWhenNotInView.js":7,"./pauseWhenTabIsntActive.js":8,"./resume.js":9,"./updateGradient.js":10}],2:[function(require,module,exports){
 'use strict';
 
 module.exports = function(state) {
@@ -100,6 +99,12 @@ module.exports = function(state) {
         this.previousStepTimeStamp = Date.now();
         this.speed = this.workingState.transitionSpeed || this.stateTransitionSpeed;
         this.isChangingState = false;
+
+        if (this.callbacks && this.callbacks.onStart) {
+            this.callbacks.onStart({
+                name: this.name
+            });
+        }
         return;
     }
 
@@ -154,39 +159,6 @@ module.exports = function() {
 'use strict';
 
 module.exports = function() {
-    return {
-        start: new CustomEvent('grader:' + this.name + ':start'),
-        end: new CustomEvent('grader:' + this.name + ':end'),
-        pause: new CustomEvent('grader:' + this.name + ':pause'),
-        resume: new CustomEvent('grader:' + this.name + ':resume'),
-        lightnessChange: function(details) {
-            return new CustomEvent('grader:' + this.name + ':lightnessChange', {
-                detail: {
-                    state: details.state,
-                },
-                bubbles: false,
-                cancelable: false
-            })
-        }.bind(this),
-        gradientChange: function(details) {
-            return new CustomEvent('grader:' + this.name + ':gradientChange', {
-                detail: {
-                    isLooping: details.isLooping,
-                    colorsFrom: details.colorsFrom,
-                    colorsTo: details.colorsTo,
-                    activeState: details.activeState
-                },
-                bubbles: false,
-                cancelable: false
-            })
-        }.bind(this)
-    }
-};
-
-},{}],5:[function(require,module,exports){
-'use strict';
-
-module.exports = function() {
 	var currentColors = [this.firstColor, this.secondColor];
 	var colorsAverage = [];
 	var gradientAverage = null;
@@ -212,15 +184,15 @@ module.exports = function() {
 		}
 	});
 	var lightness = lightnessAverage >= 128 ? 'light' : 'dark';
-	if (this.lightness && this.lightness != lightness && this.events)
+	if (this.callbacks && this.callbacks.onLightnessChange && this.lightness != lightness)
 	{
-		document.dispatchEvent(this.events.lightnessChange({ state : lightness }));
+		this.callbacks.onLightnessChange({ name: this.name, state: lightness});
 	}
 	this.lightness = lightness
 	return this.lightness;
 };
 
-},{}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 
 module.exports = function(color, isFirstColor) {
@@ -243,7 +215,7 @@ module.exports = function(color, isFirstColor) {
     return prev;
 }
 
-},{}],7:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -253,14 +225,9 @@ module.exports = function() {
     this.stopedAtTimeStamp = Date.now();
     clearInterval(this.refreshIntervalId);
     this.refreshIntervalId = null;
-
-    if (this.events)
-  	{
-  		document.dispatchEvent(this.events.pause);
-  	}
 }
 
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -295,7 +262,7 @@ module.exports = function() {
     pauseWhenNotInView(true);
 };
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -316,7 +283,7 @@ module.exports = function() {
     }.bind(this), false);
 };
 
-},{}],10:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 module.exports = function()
@@ -330,14 +297,9 @@ module.exports = function()
     this.stopedAtTimeStamp = null;
   }
   this.refreshIntervalId = setInterval(this.updateGradient.bind(this), this.animationStep || 200);
-
-  if (this.events)
-  {
-    document.dispatchEvent(this.events.resume);
-  }
 }
 
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -412,19 +374,19 @@ module.exports = function() {
 
     this.element.classList.add("grader-" + this.getLightness());
 
-    if (this.events)
-  	{
-  		document.dispatchEvent(this.events.gradientChange(
-        {
-          isLooping: this.workingState.loop,
-          colorsFrom: [this.oldFirstColor, this.oldSecondColor],
-          colorsTo: [this.firstColor, this.secondColor],
-          activeState: this.workingState
-        }));
-  	}
+    if (this.callbacks && this.callbacks.onGradientChange) {
+        this.callbacks.onLightnessChange({
+            name: this.name,
+            oldFirstColor: this.oldFirstColor,
+            oldSecondColor: this.oldSecondColor,
+            firstColor: this.firstColor,
+            secondColor: this.secondColor
+        });
+    }
+
 };
 
-},{}],12:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 window.Grader = require('./lib/Grader.js');
 
-},{"./lib/Grader.js":1}]},{},[12]);
+},{"./lib/Grader.js":1}]},{},[11]);
