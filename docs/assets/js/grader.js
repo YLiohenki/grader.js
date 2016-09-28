@@ -1,4 +1,4 @@
-/*! Grader v0.0.1 */
+/*! Grader v0.5.1 */
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
@@ -296,7 +296,9 @@ module.exports = function()
     this.previousStepTimeStamp = Date.now() - (this.stopedAtTimeStamp - this.previousStepTimeStamp);
     this.stopedAtTimeStamp = null;
   }
-  this.refreshIntervalId = setInterval(this.updateGradient.bind(this), this.animationStep || 200);
+  var speed = this.speed || 2000;
+  var step = this.animationStep || (speed < 500 ? 50 : (speed < 5000 ? 100 : 200));
+  this.refreshIntervalId = setInterval(this.updateGradient.bind(this), step);
 }
 
 },{}],10:[function(require,module,exports){

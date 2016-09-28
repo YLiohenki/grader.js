@@ -23,6 +23,7 @@
 
                 a {
                     text-decoration: none;
+                    font-weight: 900;
                 }
             }
         }
@@ -88,7 +89,70 @@
         h2,
         h3 {
             color: #16a085;
+            font-family: Graduate;
+            font-weight: 200;
+        }
+    }
+
+    .main-content {
+        .sandbox {
+            position: relative;
+            height: 300px;
+            border: solid 2px #eee;
+
+            .insandbox {
+                height: 100%;
+                width: 100%;
+            }
         }
 
+        .code-wrapper {
+            margin-top: 30px;
+
+            .tab-titles {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+
+                li {
+                    display: inline-block;
+
+                    &.active {
+                        background-color: #f5f2f0;
+
+                        a {
+                            font-weight: bold;
+                        }
+                    }
+
+                    a {
+                        display: inline-block;
+                        padding: 10px 20px;
+                        text-decoration: none;
+                        color: #333;
+                    }
+                }
+            }
+        }
+
+        .tab-titles {
+            font-family: Graduate;
+        }
+
+        .tab-content {
+            background-color: #f5f2f0;
+
+            .tab {
+                display: none;
+
+                pre[class*="language-"] {
+                    margin: 0 0.5em;
+                }
+
+                &.active {
+                    display: block;
+                }
+            }
+        }
     }
 }
