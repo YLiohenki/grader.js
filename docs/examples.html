@@ -63,9 +63,9 @@ var basicGraderInstance = new Grader({
     states: {
         "default-state": {
             gradients: [
-                [{color: '#42275a' }, {color: '#734b6d'}],
-                [{color: '#3a6186'}, {color: '#89253e', opacity: 0.85}],
-                [{color: '#FFA17F'}, {color: '#00223E'}]
+                ['#42275a', '#734b6d'],
+                ['#3a6186', {color: '#89253e', opacity: 0.85}],
+                ['#FFA17F', '#00223E']
             ],
             loop: true
         }
@@ -90,7 +90,7 @@ var basicGraderInstance = new Grader({
         <h2>Radial gradients animation</h2>
         <p>Radial gradients animation with 3 gradients in queue composed of 2 colors.</p>
         <div class="sandbox">
-          <canvas id="canvas-radial"></canvas>
+          <div id="radialgradient"></div>
         </div>
         <div class="code-wrapper">
           <ul class="tab-titles">
@@ -100,36 +100,33 @@ var basicGraderInstance = new Grader({
           </ul>
           <div class="tab-content">
             <div class="tab active" id="radial-js" data-toggle="pill">
-              <pre><code class="language-js">var granimInstance = new Granim({
-    element: '#canvas-radial',
-    name: 'radial-gradient',
-    direction: 'radial',
-    opacity: [1, 1],
-    isPausedWhenNotInView: true,
-    states : {
+              <pre><code class="language-js">
+var radialGraderInstance = new Grader({
+    name: 'radial-gradient-grader',
+    element: '#radialgradient',
+    gradientType: 'radial',
+    gradientOrigin: 'center',
+    animationStep: 50,
+    states: {
         "default-state": {
             gradients: [
-                ['#ffb347', '#ffcc33'],
-                ['#83a4d4', '#b6fbff'],
-                ['#9D50BB', '#6E48AA']
-            ]
+                ['#42275a', '#734b6d'],
+                ['#3a6186', {color: '#89253e', opacity: 0.85}],
+                ['#FFA17F', '#00223E']
+            ],
+            loop: true
         }
     }
-});</code></pre>
+});
+              </code></pre>
             </div>
             <div class="tab" id="radial-html" data-toggle="pill">
-              <pre><code class="language-html">&lt;canvas id=&quot;canvas-radial&quot;&gt;&lt;/canvas&gt;</code></pre>
+              <pre><code class="language-html">&lt;div id=&quot;radialgradient&quot;&gt;&lt;/div&gt;</code></pre>
             </div>
             <div class="tab" id="radial-css" data-toggle="pill">
-              <pre><code class="language-css">#canvas-radial {
-    position: absolute;
-    display: block;
-    width: 100%;
+              <pre><code class="language-css">div {
     height: 100%;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    width: 100%;
 }</code></pre>
             </div>
           </div>
@@ -137,9 +134,9 @@ var basicGraderInstance = new Grader({
       </div>
       <div class="container bloc">
         <h2>Gradients with an image</h2>
-        <p>Gradients with 3 colors, different opacity and a background image.</p>
+        <p>Gradients with 3 colors, different sizes and a foreground image.</p>
         <div class="sandbox">
-          <canvas id="canvas-image"></canvas>
+          <div id="frontimagegradient"></div>
         </div>
         <div class="code-wrapper">
           <ul class="tab-titles">
@@ -149,37 +146,34 @@ var basicGraderInstance = new Grader({
           </ul>
           <div class="tab-content">
             <div class="tab active" id="image-js" data-toggle="pill">
-              <pre><code class="language-js">var granimInstance = new Granim({
-    element: '#canvas-image',
-    direction: 'top-bottom',
-    opacity: [1, .5, 0],
-    isPausedWhenNotInView: true,
-    states : {
+              <pre><code class="language-js">
+var frontImageGraderInstance = new Grader({
+    name: 'front-image-gradient-grader',
+    element: '#frontimagegradient',
+    gradientType: 'radial',
+    gradientOrigin: 'ellipse farthest-side',
+    animationStep: 50,
+    backgroundImage: 'url("assets/images/sun.png") no-repeat center',
+    states: {
         "default-state": {
             gradients: [
-                ['#485563', '#29323c', '#29323c'],
-                ['#00c6ff', '#0072ff', '#0072ff']
+                ['#004e92', {color: '#004e92', size: 0.1}],
+                ['#8E0E00', '#1F1C18'],
+                ['#870000', '#190A05']
             ],
-            transitionSpeed: 10000
+            transitionSpeed: 5000,
+            loop: true
         }
     }
 });</code></pre>
             </div>
             <div class="tab" id="image-html" data-toggle="pill">
-              <pre><code class="language-html">&lt;canvas id=&quot;canvas-image&quot;&gt;&lt;/canvas&gt;</code></pre>
+              <pre><code class="language-html">&lt;div id=&quot;frontimagegradient&quot;&gt;&lt;/div&gt;</code></pre>
             </div>
             <div class="tab" id="image-css" data-toggle="pill">
-              <pre><code class="language-css">#canvas-image {
-    position: absolute;
-    display: block;
-    width: 100%;
+              <pre><code class="language-css">div {
     height: 100%;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-image: url("../img/bg-forest.jpg");
-    background-position-x: 50%;
+    width: 100%;
 }</code></pre>
             </div>
           </div>

@@ -9,7 +9,8 @@ module.exports = {
         init: function() {
             this.header();
             this.basic();
-            this.events();
+            this.radial();
+            this.frontImage();
         },
         header: function() {
             var graderHeaderInstance = new Grader({
@@ -65,9 +66,9 @@ module.exports = {
                 states: {
                     "default-state": {
                         gradients: [
-                            [{color: '#42275a' }, {color: '#734b6d'}],
-                            [{color: '#3a6186'}, {color: '#89253e', opacity: 0.85}],
-                            [{color: '#FFA17F'}, {color: '#00223E'}]
+                            ['#42275a' , '#734b6d'],
+                            ['#3a6186', {color: '#89253e', opacity: 0.85}],
+                            ['#FFA17F', '#00223E']
                         ],
                         loop: true
                     }
@@ -75,19 +76,42 @@ module.exports = {
             });
         },
 
-        basic: function() {
-            var basicGraderInstance = new Grader({
-                name: 'simple-gradient-grader',
-                element: '#simplegradient',
-                gradientType: 'linear',
-                gradientOrigin: 'to top right',
+        radial: function() {
+            var radialGraderInstance = new Grader({
+                name: 'radial-gradient-grader',
+                element: '#radialgradient',
+                gradientType: 'radial',
+                gradientOrigin: 'center',
+                animationStep: 50,
                 states: {
                     "default-state": {
                         gradients: [
-                            [{color: '#42275a' }, {color: '#734b6d'}],
-                            [{color: '#3a6186'}, {color: '#89253e', opacity: 0.85}],
-                            [{color: '#FFA17F'}, {color: '#00223E'}]
+                            ['#42275a', '#734b6d'],
+                            ['#3a6186', {color: '#89253e', opacity: 0.85}],
+                            ['#FFA17F', '#00223E']
                         ],
+                        loop: true
+                    }
+                }
+            });
+        },
+
+        frontImage: function() {
+            var frontImageGraderInstance = new Grader({
+                name: 'front-image-gradient-grader',
+                element: '#frontimagegradient',
+                gradientType: 'radial',
+                gradientOrigin: 'ellipse farthest-side',
+                animationStep: 50,
+                backgroundImage: 'url("assets/images/sun.png") no-repeat center',
+                states: {
+                    "default-state": {
+                        gradients: [
+                            ['#004e92', {color: '#004e92', size: 0.1}],
+                            ['#9E0E00', '#1F1C18'],
+                            ['#970000', '#190A05']
+                        ],
+                        transitionSpeed: 5000,
                         loop: true
                     }
                 }
