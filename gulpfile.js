@@ -54,6 +54,14 @@ gulp.task('buildDoc:html', function() {
         .pipe(gulp.dest('./docs/'));
 });
 
+gulp.task('buildDoc:js', function() {
+	return browserify({ entries: './docs/assets/js/app/index.js', debug: isSourcemaps }).bundle()
+		.pipe(source('./index.js'))
+		.pipe(buffer())
+		.pipe(rename('script.js'))
+		.pipe(gulp.dest('./docs/assets/js/'));
+});
+
 gulp.task('buildDoc:css', function() {
 	return gulp.src('./docs/assets/css/scss/index.scss')
 		.pipe(gulpif(isSourcemaps, sourcemaps.init({ loadMaps: true })))
@@ -73,9 +81,10 @@ gulp.task('watch', ['default'], function() {
     gulp.watch('./lib/**/*.js', ['default'])
 });
 
-gulp.task('buildDoc', ['buildDoc:html', 'buildDoc:css']);
+gulp.task('buildDoc', ['buildDoc:html', 'buildDoc:js', 'buildDoc:css']);
 
 gulp.task('watchDoc', ['buildDoc'], function() {
 	gulp.watch('./docs/assets/pug/**/*', ['buildDoc:html']);
+  gulp.watch('./docs/assets/js/app/**/*', ['buildDoc:js']);
 	gulp.watch('./docs/assets/css/scss/**/*', ['buildDoc:css']);
 });
