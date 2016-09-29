@@ -11,6 +11,7 @@ module.exports = {
             this.basic();
             this.radial();
             this.frontImage();
+            this.text();
         },
         header: function() {
             var graderHeaderInstance = new Grader({
@@ -81,7 +82,7 @@ module.exports = {
                 name: 'radial-gradient-grader',
                 element: '#radialgradient',
                 gradientType: 'radial',
-                gradientOrigin: 'center',
+                gradientOrigin: 'circle closest-corner',
                 animationStep: 50,
                 states: {
                     "default-state": {
@@ -110,6 +111,29 @@ module.exports = {
                             ['#004e92', {color: '#004e92', size: 0.1}],
                             ['#9E0E00', '#1F1C18'],
                             ['#970000', '#190A05']
+                        ],
+                        transitionSpeed: 5000,
+                        loop: true
+                    }
+                }
+            });
+        },
+
+        text: function() {
+            var frontImageGraderInstance = new Grader({
+                name: 'front-image-gradient-grader',
+                element: '#textgradient',
+                gradientType: 'linear',
+                gradientOrigin: 'to right',
+                applyToText: true,
+                states: {
+                    "default-state": {
+                        gradients: [
+                          ['#7474BF', '#348AC7'],
+                          [{color: '#2196f3',size: -0.2}, '#f44336'],
+                          ['#2c3e50', {color: '#3498db',opacity: 0.5}],
+                          ['#5C258D', '#4389A2'],
+                          ['#000317', '#002c70']
                         ],
                         transitionSpeed: 5000,
                         loop: true

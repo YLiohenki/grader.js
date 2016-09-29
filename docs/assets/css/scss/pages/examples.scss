@@ -100,11 +100,25 @@
             height: 300px;
             border: solid 2px #eee;
             background-color: #ffffff;
-          	background-image: url("../images/smallgraderjs.png");
+            background-image: url("../images/smallgraderjs.png");
 
             div {
                 height: 100%;
                 width: 100%;
+            }
+
+            .bloc-logo {
+                text-align: center;
+                vertical-align: middle;
+                display: flex;
+
+                #textgradient {
+                    p {
+                        font-family: Graduate;
+                        font-size: 120px;
+                        font-weight: 700;
+                    }
+                }
             }
         }
 

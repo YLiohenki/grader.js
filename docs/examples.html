@@ -105,7 +105,7 @@ var radialGraderInstance = new Grader({
     name: 'radial-gradient-grader',
     element: '#radialgradient',
     gradientType: 'radial',
-    gradientOrigin: 'center',
+    gradientOrigin: 'circle closest-corner',
     animationStep: 50,
     states: {
         "default-state": {
@@ -133,8 +133,8 @@ var radialGraderInstance = new Grader({
         </div>
       </div>
       <div class="container bloc">
-        <h2>Gradients with an image</h2>
-        <p>Gradients with 3 colors, different sizes and a foreground image.</p>
+        <h2>Radial gradients with an image</h2>
+        <p>Radial gradients with 3 colors, different sizes and a foreground image.</p>
         <div class="sandbox">
           <div id="frontimagegradient"></div>
         </div>
@@ -180,14 +180,14 @@ var frontImageGraderInstance = new Grader({
         </div>
       </div>
       <div class="container bloc">
-        <h2>Gradients with an image mask</h2>
+        <h2>Gradients on the text</h2>
         <p>
-          Gradients with an image mask to create a gradient animation under a shape.<br>
+          Gradients on the text.<br>
           Look at the logo on the left of the header.
         </p>
         <div class="sandbox canvas-image-wrapper">
           <div class="bloc-logo">
-            <canvas id="canvas-image-mask"></canvas><a class="logo-mask" href="index.html">Granim.js</a>
+            <div id="textgradient"><p>GRADER.JS</p></div>
           </div>
         </div>
         <div class="code-wrapper">
@@ -198,21 +198,24 @@ var frontImageGraderInstance = new Grader({
           </ul>
           <div class="tab-content">
             <div class="tab active" id="image-mask-js" data-toggle="pill">
-              <pre><code class="language-js">var granimInstance = new Granim({
-    element: '#logo-canvas',
-    direction: 'left-right',
-    opacity: [1, 1],
-    states : {
+              <pre><code class="language-js">
+var frontImageGraderInstance = new Grader({
+    name: 'front-image-gradient-grader',
+    element: '#textgradient',
+    gradientType: 'linear',
+    gradientOrigin: 'to right',
+    applyToText: true,
+    states: {
         "default-state": {
             gradients: [
-                ['#EB3349', '#F45C43'],
-                ['#FF8008', '#FFC837'],
-                ['#4CB8C4', '#3CD3AD'],
-                ['#24C6DC', '#514A9D'],
-                ['#FF512F', '#DD2476'],
-                ['#DA22FF', '#9733EE']
+              ['#7474BF', '#348AC7'],
+              [{color: '#2196f3',size: -0.2}, '#f44336'],
+              ['#2c3e50', {color: '#3498db',opacity: 0.5}],
+              ['#5C258D', '#4389A2'],
+              ['#000317', '#002c70']
             ],
-            transitionSpeed: 2000
+            transitionSpeed: 5000,
+            loop: true
         }
     }
 });</code></pre>
