@@ -43,7 +43,7 @@
         <h2>Basic gradients animation</h2>
         <p>Basic gradients animation with 3 gradients in queue composed of 2 colors.</p>
         <div class="sandbox">
-          <div id="simplegradient" class="insandbox"></div>
+          <div id="simplegradient"></div>
         </div>
         <div class="code-wrapper">
           <ul class="tab-titles">
@@ -53,36 +53,34 @@
           </ul>
           <div class="tab-content">
             <div class="tab active" id="basic-js" data-toggle="pill">
-              <pre><code class="language-js">var granimInstance = new Granim({
-    element: '#canvas-basic',
-    name: 'basic-gradient',
-    direction: 'left-right',
-    opacity: [1, 1],
-    isPausedWhenNotInView: true,
-    states : {
+              <pre>
+                <code class="language-js">
+var basicGraderInstance = new Grader({
+    name: 'simple-gradient-grader',
+    element: '#simplegradient',
+    gradientType: 'linear',
+    gradientOrigin: 'to top right',
+    states: {
         "default-state": {
             gradients: [
-                ['#AA076B', '#61045F'],
-                ['#02AAB0', '#00CDAC'],
-                ['#DA22FF', '#9733EE']
-            ]
+                [{color: '#42275a' }, {color: '#734b6d'}],
+                [{color: '#3a6186'}, {color: '#89253e', opacity: 0.85}],
+                [{color: '#FFA17F'}, {color: '#00223E'}]
+            ],
+            loop: true
         }
     }
-});</code></pre>
+});
+                </code>
+              </pre>
             </div>
             <div class="tab" id="basic-html" data-toggle="pill">
-              <pre><code class="language-html">&lt;canvas id=&quot;canvas-basic&quot;&gt;&lt;/canvas&gt;</code></pre>
+              <pre><code class="language-html">&lt;div id=&quot;simplegradient&quot;&gt;&lt;/div&gt;</code></pre>
             </div>
             <div class="tab" id="basic-css" data-toggle="pill">
-              <pre><code class="language-css">#canvas-basic {
-    position: absolute;
-    display: block;
-    width: 100%;
+              <pre><code class="language-css">div {
     height: 100%;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    width: 100%;
 }</code></pre>
             </div>
           </div>

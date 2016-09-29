@@ -115,6 +115,25 @@ module.exports = {
                     }
                 }
             });
+        },
+
+        basic: function() {
+            var basicGraderInstance = new Grader({
+                name: 'simple-gradient-grader',
+                element: '#simplegradient',
+                gradientType: 'linear',
+                gradientOrigin: 'to top right',
+                states: {
+                    "default-state": {
+                        gradients: [
+                            [{color: '#42275a' }, {color: '#734b6d'}],
+                            [{color: '#3a6186'}, {color: '#89253e', opacity: 0.85}],
+                            [{color: '#FFA17F'}, {color: '#00223E'}]
+                        ],
+                        loop: true
+                    }
+                }
+            });
         }
     }
 };
