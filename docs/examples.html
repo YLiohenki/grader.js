@@ -185,7 +185,7 @@ var frontImageGraderInstance = new Grader({
           Gradients on the text.<br>
           Look at the logo on the left of the header.
         </p>
-        <div class="sandbox canvas-image-wrapper">
+        <div class="sandbox">
           <div class="bloc-logo">
             <div id="textgradient"><p>GRADER.JS</p></div>
           </div>
@@ -221,33 +221,13 @@ var frontImageGraderInstance = new Grader({
 });</code></pre>
             </div>
             <div class="tab" id="image-mask-html" data-toggle="pill">
-              <pre><code class="language-html">&lt;div class=&quot;blov-logo&quot;&gt;
-    &lt;canvas id=&quot;canvas-basic&quot;&gt;&lt;/canvas&gt;
-    &lt;a href=&quot;index.html&quot; class=&quot;logo-mask&quot;&gt;Granim.js&lt;/a&gt;
-&lt;/div&gt;</code></pre>
+              <pre><code class="language-html">&lt;div id=&quot;textgradient&quot;&gt;&lt;p&gt;GRADER.JS&lt;/p&gt;&lt;/div&gt;</code></pre>
             </div>
             <div class="tab" id="image-mask-css" data-toggle="pill">
-              <pre><code class="language-css">.bloc-logo {
-    position: relative;
-    width: 130px;
-    height: 49px;
-    float: left;
-}
-<br>
-.bloc-logo canvas,
-.bloc-logo .logo-mask {
-    display: block;
-    width: 130px;
-    height: 49px;
-}
-<br>
-.bloc-logo .logo-mask {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-size: 130px;
-    background-image: url("../img/logo-mask.png");
-    text-indent: -9999px;
+              <pre><code class="language-css">#textgradient {
+  font-family: Graduate;
+  font-size: 120px;
+  font-weight: 700;
 }</code></pre>
             </div>
           </div>
@@ -259,9 +239,10 @@ var frontImageGraderInstance = new Grader({
           Create a gradients animation that responds to events.<br>
           Click on the different states in the gradient animation to see the gradients change.
         </p>
-        <div class="sandbox canvas-interactive-wrapper">
-          <canvas id="canvas-interactive"></canvas>
-          <div class="cta-wrapper"><span><a class="active" id="default-state-cta" href="#default-state">Default state</a></span><span><a id="violet-state-cta" href="#violet-state">Violet animated state</a></span><span><a id="orange-state-cta" href="#orange-state">Orange static state</a></span></div>
+        <div class="sandbox">
+          <div id="grader-interactive">
+            <div class="cta-wrapper"><span><a class="active" id="default-state-cta" href="#default-state">Default state</a></span><span><a id="violet-state-cta" href="#violet-state">Violet animated state</a></span><span><a id="orange-state-cta" href="#orange-state">Orange static state</a></span></div>
+          </div>
         </div>
         <div class="code-wrapper">
           <ul class="tab-titles">

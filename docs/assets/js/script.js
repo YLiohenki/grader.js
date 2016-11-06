@@ -150,7 +150,7 @@ module.exports = {
                 states: {
                     "default-state": {
                         gradients: [
-                            ['#004e92', {color: '#004e92', size: 0.1}],
+                            ['#003e72', {color: '#003e72', size: 0.1}],
                             ['#9E0E00', '#1F1C18'],
                             ['#970000', '#190A05']
                         ],
