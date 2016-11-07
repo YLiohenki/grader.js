@@ -48,12 +48,15 @@ module.exports = {
     },
 
     examples: {
+        frontImageGraderInstance: null,
         init: function() {
             this.header();
             this.basic();
             this.radial();
             this.frontImage();
             this.text();
+            this.interactive();
+            this.events();
         },
         header: function() {
             var graderHeaderInstance = new Grader({
@@ -182,6 +185,54 @@ module.exports = {
                     }
                 }
             });
+        },
+
+        interactive: function() {
+            this.frontImageGraderInstance = new Grader({
+                name: 'interactive-gradient-grader',
+                element: '#interactive',
+                gradientType: 'linear',
+                gradientOrigin: 'to bottom right',
+                stateTransitionSpeed: 1000,
+                animationStep: 50,
+                states: {
+                    "default-state": {
+                        gradients: [['#7474BF', '#348AC7']]
+                    },
+                    "green-state": {
+                        gradients: [['#6A9113', '#141517']]
+                    },
+                    "violet-state": {
+                        gradients: [
+                            ['#6441A5', '#2a0845'],
+                            ['#360033', '#0b8793'],
+                            ['#000000', '#53346D']
+                        ],
+                        transitionSpeed: 3000,
+                        loop: true
+                    },
+                    "orange-state": {
+                        gradients: [['#fe8c00', '#f83600']]
+                    }
+                }
+            });
+        },
+        events: function() {
+            $('#green-state-cta').hover(function() {
+                this.frontImageGraderInstance.changeState('green-state');
+            }.bind(this), function() {
+                this.frontImageGraderInstance.changeState('default-state');
+            }.bind(this));
+            $('#violet-state-cta').hover(function() {
+                this.frontImageGraderInstance.changeState('violet-state');
+            }.bind(this), function() {
+                this.frontImageGraderInstance.changeState('default-state');
+            }.bind(this));
+            $('#orange-state-cta').hover(function() {
+                this.frontImageGraderInstance.changeState('orange-state');
+            }.bind(this), function() {
+                this.frontImageGraderInstance.changeState('default-state');
+            }.bind(this));
         }
     }
 };

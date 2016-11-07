@@ -240,8 +240,8 @@ var frontImageGraderInstance = new Grader({
           Click on the different states in the gradient animation to see the gradients change.
         </p>
         <div class="sandbox">
-          <div id="grader-interactive">
-            <div class="cta-wrapper"><span><a class="active" id="default-state-cta" href="#default-state">Default state</a></span><span><a id="violet-state-cta" href="#violet-state">Violet animated state</a></span><span><a id="orange-state-cta" href="#orange-state">Orange static state</a></span></div>
+          <div id="interactive">
+            <span><a class="active" id="green-state-cta" href="#green-state">Green state</a><a id="violet-state-cta" href="#violet-state">Violet animated state</a><a id="orange-state-cta" href="#orange-state">Orange static state</a></span>
           </div>
         </div>
         <div class="code-wrapper">
@@ -252,105 +252,80 @@ var frontImageGraderInstance = new Grader({
           </ul>
           <div class="tab-content">
             <div class="tab active" id="interactive-js" data-toggle="pill">
-              <pre><code class="language-js">var granimInstance = new Granim({
-    element: '#canvas-interactive',
-    name: 'interactive-gradient',
-    elToSetClassOn: '.canvas-interactive-wrapper',
-    direction: 'diagonal',
-    opacity: [1, 1],
-    isPausedWhenNotInView: true,
-    stateTransitionSpeed: 500,
-    states : {
+              <pre><code class="language-js">var frontImageGraderInstance = new Grader({
+    name: 'interactive-gradient-grader',
+    element: '#interactive',
+    gradientType: 'linear',
+    gradientOrigin: 'to bottom right',
+    stateTransitionSpeed: 1000,
+    animationStep: 50,
+    states: {
         "default-state": {
-            gradients: [
-                ['#B3FFAB', '#12FFF7'],
-                ['#ADD100', '#7B920A'],
-                ['#1A2980', '#26D0CE']
-            ],
-            transitionSpeed: 10000
+            gradients: [['#7474BF', '#348AC7']]
+        },
+        "green-state": {
+            gradients: [['#6A9113', '#141517']]
         },
         "violet-state": {
-            gradients: [
-                ['#9D50BB', '#6E48AA'],
-                ['#4776E6', '#8E54E9']
-            ],
-            transitionSpeed: 2000
+            gradients: [['#6441A5', '#2a0845']]
         },
         "orange-state": {
-            gradients: [ ['#FF4E50', '#F9D423'] ],
-            loop: false
+            gradients: [['#fe8c00', '#f83600']]
         }
     }
 });
 <br>
 // With jQuery
-$('#default-state-cta').on('click', function(event) {
-    event.preventDefault();
-    granimInstance.changeState('default-state');
-    setClass('#default-state-cta')
-});
-$('#violet-state-cta').on('click', function(event) {
-    event.preventDefault();
-    granimInstance.changeState('violet-state');
-    setClass('#violet-state-cta')
-});
-$('#orange-state-cta').on('click', function(event) {
-    event.preventDefault();
-    granimInstance.changeState('orange-state');
-    setClass('#orange-state-cta')
-});
-<br>
-function setClass(element) {
-    $('.canvas-interactive-wrapper a').removeClass('active');
-    $(element).addClass('active');
-};</code></pre>
+$('#green-state-cta').hover(function() {
+    this.frontImageGraderInstance.changeState('green-state');
+}.bind(this), function() {
+    this.frontImageGraderInstance.changeState('default-state');
+}.bind(this));
+$('#violet-state-cta').hover(function() {
+    this.frontImageGraderInstance.changeState('violet-state');
+}.bind(this), function() {
+    this.frontImageGraderInstance.changeState('default-state');
+}.bind(this));
+$('#orange-state-cta').hover(function() {
+    this.frontImageGraderInstance.changeState('orange-state');
+}.bind(this), function() {
+    this.frontImageGraderInstance.changeState('default-state');
+}.bind(this));</code></pre>
             </div>
             <div class="tab" id="interactive-html" data-toggle="pill">
-              <pre><code class="language-html">&lt;div class=&quot;canvas-interactive-wrapper&quot;&gt;
-    &lt;canvas id=&quot;canvas-interactive&quot;&gt;&lt;/canvas&gt;
-    &lt;div class=&quot;cta-wrapper&quot;&gt;
-        &lt;a href=&quot;#default-state&quot; id=&quot;default-state-cta&quot; class=&quot;active&quot;&gt;Default state&lt;/a&gt;
-        &lt;a href=&quot;#violet-state&quot; id=&quot;violet-state-cta&quot;&gt;Violet state&lt;/a&gt;
-        &lt;a href=&quot;#orange-state&quot; id=&quot;orange-state-cta&quot;&gt;Orange state&lt;/a&gt;
-    &lt;/div&gt;
+              <pre><code class="language-html">&lt;div id=&quot;interactive&quot;&gt;
+  &lt;span&gt;
+    &lt;a class=&quot;active&quot; id=&quot;green-state-cta&quot; href=&quot;#green-state&quot;&gt;Green state&lt;/a&gt;
+    &lt;a id=&quot;violet-state-cta&quot; href=&quot;#violet-state&quot;&gt;Violet animated state&lt;/a&gt;
+    &lt;a id=&quot;orange-state-cta&quot; href=&quot;#orange-state&quot;&gt;Orange static state&lt;/a&gt;
+  &lt;/span&gt;
 &lt;/div&gt;</code></pre>
             </div>
             <div class="tab" id="interactive-css" data-toggle="pill">
-              <pre><code class="language-css">.canvas-interactive-wrapper {
-    position: relative;
-    height: 300px;
-    text-align: center;
-}
-<br>
-.canvas-interactive-wrapper canvas {
-    position: absolute;
-    display: block;
-    width: 100%;
+              <pre><code class="language-css">div {
     height: 100%;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    width: 100%;
 }
 <br>
-.canvas-interactive-wrapper .cta-wrapper {
-    margin-top: 130px;
+#interactive{
+  display: flex;
+  flex-direction: column;
+  margin: auto;
 }
 <br>
-.canvas-interactive-wrapper .cta-wrapper a {
-    position: relative;
-    display: inline-block;
-    padding: 3px 7px;
-    border: solid 1px transparent;
-    margin-right: 50px;
-    z-index: 1;
+span {
+  text-align: center;
+  margin: auto;
+}
+<br>
+a {
     text-decoration: none;
-    color: #222;
-    transition: border .3s;
-}
-<br>
-.canvas-interactive-wrapper .cta-wrapper a.active {
-    border-color: #222;
+    font-family: Graduate;
+    color: white;
+    font-size: 25px;
+    border: 1px solid white;
+    padding: 5px;
+    margin: 10px;
 }</code></pre>
             </div>
           </div>

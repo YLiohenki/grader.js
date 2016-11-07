@@ -120,6 +120,25 @@
                     }
                 }
             }
+
+            #interactive{
+                display: flex;
+                flex-direction: column;
+                margin: auto;
+                span {
+                    text-align: center;
+                    margin: auto;
+                    a {
+                        text-decoration: none;
+                        font-family: Graduate;
+                        color: white;
+                        font-size: 25px;
+                        border: 1px solid white;
+                        padding: 5px;
+                        margin: 10px;
+                    }
+                }
+            }
         }
 
         .code-wrapper {
