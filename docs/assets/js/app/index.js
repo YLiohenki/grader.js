@@ -18,6 +18,7 @@ $(document).on('DOMContentLoaded', function() {
 
 		case 'api':
 			main.init();
+			api.init();
 			break;
 	}
 });
