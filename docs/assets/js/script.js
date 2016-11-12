@@ -3,7 +3,8 @@
 
 var main = require('./main.js'),
 	home = require('./pages/home.js'),
-	examples = require('./pages/examples.js');
+	examples = require('./pages/examples.js'),
+	api = require('./pages/api.js');
 
 $(document).on('DOMContentLoaded', function() {
 	switch(pageId) {
@@ -19,11 +20,12 @@ $(document).on('DOMContentLoaded', function() {
 
 		case 'api':
 			main.init();
+			api.init();
 			break;
 	}
 });
 
-},{"./main.js":2,"./pages/examples.js":3,"./pages/home.js":4}],2:[function(require,module,exports){
+},{"./main.js":2,"./pages/api.js":3,"./pages/examples.js":4,"./pages/home.js":5}],2:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -40,6 +42,64 @@ module.exports = {
 };
 
 },{}],3:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+    init: function() {
+        this.api.init();
+    },
+
+    api: {
+        init: function() {
+            this.header();
+        },
+        header: function() {
+            var graderHeaderInstance = new Grader({
+                name: 'logo-grader',
+                element: '#logo-grader',
+                gradientType: 'linear',
+                gradientOrigin: '135deg',
+                stateTransitionSpeed: 1000,
+                animationStep: 50,
+                applyToText: true,
+                states: {
+                    "default-state": {
+                        gradients: [
+                            [{
+                                color: '#42275a'
+                            }, {
+                                color: '#734b6d'
+                            }],
+                            [{
+                                color: '#3a6186'
+                            }, {
+                                color: '#89253e'
+                            }],
+                            [{
+                                color: '#FFA17F'
+                            }, {
+                                color: '#00223E'
+                            }],
+                            [{
+                                color: '#e96443'
+                            }, {
+                                color: '#904e95'
+                            }],
+                            [{
+                                color: '#c21500'
+                            }, {
+                                color: '#ffc500'
+                            }]
+                        ],
+                        transitionSpeed: 5000,
+                        loop: true
+                    }
+                }
+            });
+        }
+    }
+}
+},{}],4:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -237,7 +297,7 @@ module.exports = {
     }
 };
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 module.exports = {
     init: function() {
