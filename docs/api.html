@@ -61,24 +61,24 @@
               </td>
             </tr>
             <tr>
-              <td>elToSetClassOn</td>
-              <td>'body'</td>
+              <td>gradientType</td>
+              <td>'linear'</td>
               <td>String</td>
-              <td>
-                The element to set the dark / light class on (e.g. <span class="snippet">'#canvas-wrapper'</span>).
-                Is useful only if you set a <span class="snippet">options.name</span>.
+              <td>The type of gradient:
+                <ul>
+                  <li><span class="snippet">'linear'</span></li>
+                  <li><span class="snippet">'radial'</span></li>
+                </ul>
               </td>
             </tr>
             <tr>
-              <td>direction</td>
-              <td>'diagonal'</td>
+              <td>gradientOrigin</td>
+              <td>'circle closest-side'</td>
               <td>String</td>
-              <td>The orientation of the gradient, you can choose between:
+              <td>The orientation of the gradient, you select any as you can in css. For example:
                 <ul>
-                  <li><span class="snippet">'diagonal'</span></li>
-                  <li><span class="snippet">'left-right'</span></li>
-                  <li><span class="snippet">'top-bottom'</span></li>
-                  <li><span class="snippet">'radial'</span></li>
+                  <li><span class="snippet">'to top'</span></li>
+                  <li><span class="snippet">'to bottom right'</span></li>
                 </ul>
               </td>
             </tr>
@@ -101,24 +101,6 @@
                 if you have two colors <span class="snippet">[1, .5]</span>,
                 or three <span class="snippet">[1, .5, 1]</span>...
               </td>
-            </tr>
-            <tr>
-              <td>stateTransitionSpeed</td>
-              <td>1000</td>
-              <td>Int</td>
-              <td>Duration of the animation when changing state.</td>
-            </tr>
-            <tr>
-              <td>defaultStateName</td>
-              <td>'default-state'</td>
-              <td>String</td>
-              <td>The name of the default state.</td>
-            </tr>
-            <tr>
-              <td>states <span class="required">(required)</span></td>
-              <td>/</td>
-              <td>Object</td>
-              <td>Object containing all the states, see more info below.</td>
             </tr>
           </tbody>
         </table>
