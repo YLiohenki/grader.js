@@ -94,100 +94,35 @@
         }
     }
 
-    .main-content {
-        .sandbox {
-            position: relative;
-            height: 300px;
-            border: solid 2px #eee;
-            background-color: #ffffff;
-            background-image: url("../images/smallgraderjs.png");
-
-            div {
-                height: 100%;
-                width: 100%;
+    table.api-list {
+        width: 100%;
+        text-align: left;
+        border-spacing: 0;
+        td {
+            &:nth-child(1) 
+            {
+                color: #1abc9c;
+                font-weight: bold;
             }
+            padding-top: 15px;
+            vertical-align: top;
+            line-height: 1.3;
 
-            .bloc-logo {
-                text-align: center;
+            .required {
+                font-size: 12px;
+                font-weight: normal;
+                color: #a9a9a9;
                 vertical-align: middle;
-                display: flex;
-
-                #textgradient {
-                    p {
-                        font-family: Graduate;
-                        font-size: 120px;
-                        font-weight: 700;
-                    }
-                }
-            }
-
-            #interactive{
-                display: flex;
-                flex-direction: column;
-                margin: auto;
-                span {
-                    text-align: center;
-                    margin: auto;
-                    a {
-                        text-decoration: none;
-                        font-family: Graduate;
-                        color: white;
-                        font-size: 25px;
-                        border: 1px solid white;
-                        padding: 5px;
-                        margin: 10px;
-                    }
-                }
             }
         }
+    }
 
-        .code-wrapper {
-            margin-top: 30px;
-
-            .tab-titles {
-                list-style: none;
-                padding: 0;
-                margin: 0;
-
-                li {
-                    display: inline-block;
-
-                    &.active {
-                        background-color: #f5f2f0;
-
-                        a {
-                            font-weight: bold;
-                        }
-                    }
-
-                    a {
-                        display: inline-block;
-                        padding: 10px 20px;
-                        text-decoration: none;
-                        color: #333;
-                    }
-                }
-            }
-        }
-
-        .tab-titles {
-            font-family: Graduate;
-        }
-
-        .tab-content {
-            background-color: #f5f2f0;
-
-            .tab {
-                display: none;
-
-                pre[class*="language-"] {
-                    margin: 0 0.5em;
-                }
-
-                &.active {
-                    display: block;
-                }
-            }
+    @media screen and (min-width: 768px)
+    {
+        table.api-list td 
+        {
+            padding-bottom: 15px;
+            border-bottom: solid 1px #ddd;
         }
     }
 }
